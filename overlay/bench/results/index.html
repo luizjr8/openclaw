@@ -1,0 +1,2348 @@
+
+<!DOCTYPE html>
+<html data-src-ver="af0a5f32" lang="pt-BR" data-theme="dark" data-om-id="af0a5f32:0" data-src-loc="16:53:47508">
+<head data-om-id="af0a5f32:1" data-src-loc="54:60:6944">
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{var A=["https://claude.ai","https://preview.claude.ai","https://eap-omelette.claude.ai"];var L=30000;var u=3000;document.addEventListener("DOMContentLoaded",()=>{const V=window.Babel;const $="om-src-id";if(V&&V.registerPlugin&&!(V.availablePlugins&&V.availablePlugins[$])){V.registerPlugin($,({types:Q})=>({visitor:{JSXOpeningElement(W,X){const K=W.node;if(K.name&&K.name.type==="JSXMemberExpression")return;for(let J=0;J<K.attributes.length;J++){const w=K.attributes[J];if(w.type==="JSXAttribute"&&w.name&&w.name.name==="data-om-id")return}const z=X.file&&X.file.opts&&X.file.opts.filename||"?";const k=K.loc&&K.loc.start;const C=`jsx:${z}:${K.start??0}:${k?k.line:0}:${k?k.column+1:0}`;K.attributes.push(Q.jsxAttribute(Q.jsxIdentifier("data-om-id"),Q.stringLiteral(C)))}}}))}const Z=["transform-react-jsx-source",$];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((Q,W)=>{const X=Q.getAttribute("data-plugins")||"";const K=Z.filter((z)=>X.indexOf(z)<0);if(K.length){Q.setAttribute("data-plugins",X?`${X},${K.join(",")}`:K.join(","))}if(!Q.hasAttribute("data-filename")){Q.setAttribute("data-filename",Q.getAttribute("src")||`inline-${W}`)}})});var b=window.parent;if(b&&b!==window){const V=(z,k)=>{try{b.postMessage({__omelette_log:true,type:z,data:k},"*")}catch{}};["log","warn","error"].forEach((z)=>{const k=console[z];console[z]=(...C)=>{const J=C.map((w)=>{try{return typeof w==="object"?JSON.stringify(w):String(w)}catch{try{return String(w)}catch{return"[unstringifiable]"}}}).join(" ");V(z,J);k.apply(console,C)}});window.addEventListener("error",(z)=>{const k=z.target;if(k&&k!==window&&k.tagName){const C=k.src||k.href||"";V("resource_error",`${k.tagName} failed to load: ${C}`)}else{V("error",`${z.message||"Unknown error"} at ${z.filename||"?"}:${z.lineno||0}:${z.colno||0}`)}},true);window.addEventListener("unhandledrejection",(z)=>{const k=z.reason;const C=k instanceof Error?`${k.message} ${k.stack}`:String(k);V("error",`Unhandled rejection: ${C}`)});const $=()=>{try{b.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(document.readyState==="complete")$();else window.addEventListener("load",$);if(window.ResizeObserver)new ResizeObserver($).observe(document.documentElement);const Z={};let Q=0;window.claude={complete(z){return new Promise((k,C)=>{if(!A.length){C(new Error("claude.complete: no parent origin"));return}const J=`c${++Q}`;const w=()=>setTimeout(()=>{delete Z[J];C(new Error(`claude.complete: no data for ${L/1000}s`))},L);const Y=w();Z[J]={resolve:k,reject:C,text:"",t:Y,arm:w};try{for(const F of A){b.postMessage({__om_api:true,id:J,body:z},F)}}catch(F){clearTimeout(Y);delete Z[J];C(F)}})}};const W={};let X=0;window.omelette={writeFile:(z,k)=>new Promise((C,J)=>{if(!A.length){C();return}const w=`f${++X}`;const Y=setTimeout(()=>{delete W[w];C()},u);W[w]={resolve:C,reject:J,t:Y};try{for(const F of A){b.postMessage({__om_file:true,id:w,op:"write",path:z,content:k},F)}}catch{clearTimeout(Y);delete W[w];C()}})};const K=(z)=>{try{return JSON.stringify(z)}catch{return JSON.stringify(String(z))}};window.addEventListener("message",(z)=>{if(A.indexOf(z.origin)<0)return;if(z.source!==b)return;const k=z.data;if(!k)return;if(k.__om_file_r){const w=W[k.id];if(!w)return;clearTimeout(w.t);delete W[k.id];if(k.ok)w.resolve();else w.reject(new Error(k.error||"write failed"));return}if(k.__om_api_r){const w=Z[k.id];if(!w)return;if(k.error!=null){clearTimeout(w.t);delete Z[k.id];w.reject(new Error(k.error));return}if(k.chunk!=null){clearTimeout(w.t);w.t=w.arm();w.text+=k.chunk;return}if(k.done){clearTimeout(w.t);delete Z[k.id];w.resolve(k.text!=null?k.text:w.text);return}return}if(!k.__om_eval)return;const C=k;const J=(w)=>{z.source.postMessage({...w,__om_eval_r:1,id:C.id},z.origin)};try{const w=(0,eval)(C.code);if(w&&typeof w.then==="function"){w.then((Y)=>J({ok:1,v:K(Y)}),(Y)=>J({ok:0,e:String(Y)}))}else{J({ok:1,v:K(w)})}}catch(w){J({ok:0,e:String(w)})}})}})();
+</script>
+
+  <meta charset="UTF-8" data-om-id="af0a5f32:2" data-src-loc="63:85:85">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" data-om-id="af0a5f32:3" data-src-loc="88:158:158">
+  <title data-src-loc="161:168:189">LLM Benchmark</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" data-om-id="af0a5f32:4" data-src-loc="192:346:346">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous" data-src-loc="349:527:536"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous" data-src-loc="539:725:734"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous" data-src-loc="737:915:924"></script>
+  <script src="https://unpkg.com/marked@9.1.6/marked.min.js" crossorigin="anonymous"></script>
+  <style data-src-loc="927:934:6936">
+    :root {
+      --bg:            #0d1117;
+      --bg-surface:    #161b22;
+      --bg-hover:      #1c2128;
+      --border:        #21262d;
+      --border-sep:    #30363d;
+      --border-subtle: rgba(255,255,255,0.045);
+      --text:          #e6edf3;
+      --text-muted:    #ebeef2;
+      --text-dim:      #dde1e8;
+      --bar-track:     rgba(255,255,255,0.07);
+      --pill-bg:       #161b22;
+      --pill-border:   #30363d;
+      --badge-bg:      rgba(139,148,158,0.1);
+      --modal-bg:      rgba(1,4,9,0.75);
+    }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px; -webkit-font-smoothing: antialiased;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-sep); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table { border-collapse: collapse; width: max-content; min-width: 100%; }
+    th, td { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    th:last-child, td:last-child { border-right: none; }
+    tr:last-child td { border-bottom: none; }
+
+    .sticky { position: sticky; z-index: 2; }
+    thead .sticky { z-index: 4; }
+    .s1 { left: 0;     min-width: 210px; max-width: 210px; width: 210px; }
+    .s3 { left: 210px; min-width: 90px;  max-width: 90px;  width: 90px;  }
+    .sep-right { border-right: 2px solid var(--border-sep) !important; }
+
+    .group-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: inherit; color: inherit; padding: 0;
+      display: flex; align-items: center; gap: 6px;
+      width: 100%; justify-content: center;
+    }
+    .group-btn:hover { opacity: 0.8; }
+
+    .run-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 20px;
+      border: 1px solid var(--pill-border); background: var(--pill-bg);
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    }
+    .run-pill.active { border-color: #388bfd; color: #79c0ff; background: rgba(56,139,253,0.1); }
+    .run-pill:hover { border-color: var(--text-dim); }
+
+    .badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+
+    .md-body h1,.md-body h2,.md-body h3 { margin: 1.2em 0 0.4em; font-weight: 600; }
+    .md-body h1 { font-size: 1.5em; } .md-body h2 { font-size: 1.25em; } .md-body h3 { font-size: 1.05em; }
+    .md-body p { margin: 0.6em 0; }
+    .md-body ul,.md-body ol { padding-left: 1.4em; margin: 0.5em 0; }
+    .md-body li { margin: 0.2em 0; }
+    .md-body code { font-family: 'JetBrains Mono',monospace; font-size: 0.85em; background: var(--bg-hover); padding: 1px 5px; border-radius: 4px; }
+    .md-body pre { background: var(--bg-hover); border-radius: 6px; padding: 12px; overflow-x: auto; margin: 0.8em 0; }
+    .md-body pre code { background: none; padding: 0; }
+    .md-body a { color: #79c0ff; }
+    .md-body blockquote { border-left: 3px solid var(--border-sep); padding-left: 12px; color: var(--text-muted); margin: 0.8em 0; }
+    .md-body hr { border: none; border-top: 1px solid var(--border); margin: 1em 0; }
+    .md-body table { border-collapse: collapse; margin: 0.8em 0; }
+    .md-body th,.md-body td { border: 1px solid var(--border); padding: 5px 10px; }
+    .md-body th { background: var(--bg-hover); }
+
+/* clickable data cells */
+    .data-cell { cursor: pointer; }
+    .data-cell:hover { filter: brightness(1.06); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: var(--modal-bg);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      animation: fadeOverlay 0.15s ease;
+    }
+    @keyframes fadeOverlay { from { opacity:0 } to { opacity:1 } }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-sep);
+      border-radius: 14px;
+      width: 100%; max-width: 680px;
+      max-height: 88vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      animation: slideUp 0.18s ease;
+      overflow: hidden;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
+
+    .modal-header {
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .modal-body {
+      flex: 1; overflow-y: auto;
+      padding: 18px 22px 22px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .modal-section-label {
+      font-size: 9px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .modal-resumo {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      font-size: 12px; line-height: 1.65; color: var(--text-muted);
+    }
+    .criterio-row {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .criterio-row:last-child { border-bottom: none; }
+    .hard-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    }
+    .hard-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--text-muted);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 10px;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-3px) } to { opacity:1; transform:translateY(0) } }
+    .col-fade { animation: fadeIn 0.16s ease; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+
+    .md-content { overflow-wrap:break-word; word-break:break-word; }
+    .md-content h1,.md-content h2,.md-content h3,.md-content h4 { color:var(--text);font-weight:700;margin:14px 0 6px;line-height:1.3; }
+    .md-content h1 { font-size:16px; }
+    .md-content h2 { font-size:14px; }
+    .md-content h3,.md-content h4 { font-size:12px; }
+    .md-content p { margin:6px 0;color:var(--text-muted);line-height:1.65;font-size:12px; }
+    .md-content ul,.md-content ol { padding-left:20px;margin:6px 0; }
+    .md-content li { margin:3px 0;color:var(--text-muted);font-size:12px;line-height:1.6; }
+    .md-content pre { background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin:8px 0;overflow-x:auto; }
+    .md-content code { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text); }
+    .md-content pre code { background:none;padding:0; }
+    .md-content :not(pre)>code { background:var(--badge-bg);padding:1px 5px;border-radius:3px; }
+    .md-content table { width:100%;border-collapse:collapse;margin:8px 0;font-size:11px; }
+    .md-content th { background:var(--bg);color:var(--text);font-weight:600;padding:6px 10px;border:1px solid var(--border);text-align:left; }
+    .md-content td { padding:5px 10px;border:1px solid var(--border);color:var(--text-muted); }
+    .md-content blockquote { border-left:3px solid var(--border-sep);padding:4px 12px;margin:8px 0;color:var(--text-dim);font-style:italic; }
+    .md-content strong { color:var(--text);font-weight:600; }
+    .md-content hr { border:none;border-top:1px solid var(--border);margin:12px 0; }
+    .md-content a { color:#388bfd;text-decoration:none; }
+    .md-content a:hover { text-decoration:underline; }
+
+    @media (max-width: 640px) {
+      /* Encolhe coluna modelo, oculta provider */
+      .s1 { min-width: 120px; max-width: 120px; width: 120px; }
+      .s3 { display: none !important; }
+
+      /* Células de dados mais compactas */
+      .data-cell { padding: 7px 8px !important; }
+
+      /* Modal full-screen no mobile — bottom sheet */
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal-card {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 16px 16px 0 0;
+      }
+      .modal-header { padding: 14px 16px 10px; }
+      .modal-body { padding: 14px 16px 20px; }
+
+      /* Legenda + checkboxes: ocupa linha própria e quebra */
+      .legend-row {
+        margin-left: 0 !important;
+        width: 100%;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+      }
+
+      /* Título menor */
+      h1 { font-size: 13px !important; }
+
+      /* Toolbar fixa: oculta no mobile */
+      .sticky-toolbar { display: none !important; }
+
+      /* Seletores mobile: aparecem no fluxo normal */
+      .mobile-selectors { display: flex !important; }
+
+      /* Group pills: oculta no mobile */
+      .group-pills { display: none !important; }
+    }
+
+    @media (min-width: 641px) {
+      .sticky-toolbar {
+        position: fixed;
+        top: 12px;
+        right: 20px;
+        z-index: 100;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+    }
+  </style>
+</head>
+<body data-om-id="af0a5f32:5" data-src-loc="6945:6951:47500">
+<div id="root" data-om-id="af0a5f32:6" data-src-loc="6952:6967:6973"></div>
+<script type="text/babel" data-src-loc="6974:7000:47492">
+  const { useState, useEffect, useMemo, useCallback } = React;
+
+  const BENCHMARK_FILE = 'benchmark.json';
+
+  /* ── Groups (derivados de raw.meta.groups; fallback vazio para runs antigas) ── */
+  function buildGroups(raw) {
+    const metaGroups = raw?.meta?.groups;
+    if (!metaGroups?.length) return [];
+    return metaGroups.map(g => {
+      const [r, gv, b] = hexRgb(g.color);
+      return { ...g, bg: `rgba(${r},${gv},${b},0.07)` };
+    });
+  }
+  // Placeholder inicial — substituído em App após carregar o JSON
+  let GROUPS = [];
+  let TASK_NAMES = {};
+
+  /* ── Helpers ─────────────────────────────────── */
+  function parseModel(key) {
+    // key: "openrouter_qwen_qwen3.6-35b-a3b" or similar
+    const parts = key.split('_');
+    const start = parts[0] === 'openrouter' ? 1 : 0;
+    const provider = parts[start] || '?';
+    const modelPart = parts.slice(start+1).join('-') || parts[start] || key;
+    const name = provider + '/' + modelPart;
+    const pm = modelPart.match(/(\d+\.?\d*)[Bb]/i);
+    const params = pm ? pm[0].toUpperCase() : '?';
+    return { key, name, params, quant: provider };
+  }
+
+  function fmtTs(ts) {
+    const d = new Date(ts);
+    return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})
+         + ' ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }
+
+  function fmtKey(k) {
+    return k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  }
+
+  function computeStats(modelos, selTs) {
+    return Object.entries(modelos).map(([k,v]) => {
+      const runs = v.runs.filter(r => selTs.has(r.timestamp));
+      if (!runs.length) return null;
+      const parsed = parseModel(k);
+      const tasks = {};
+      const allKeys = [...new Set(runs.flatMap(r => Object.keys(r.respostas||{})))];
+      allKeys.forEach(tk => {
+        const items = runs.filter(r => r.respostas&&r.respostas[tk]).map(r => r.respostas[tk]);
+        if (!items.length) return;
+        const avgNum = fn => { const vs=items.map(fn).filter(x=>x!=null&&!isNaN(x)); return vs.length?vs.reduce((s,v)=>s+v,0)/vs.length:0; };
+        const notaVals = items.map(x=>x.avaliacao?.nota_geral).filter(x=>x!=null);
+        const dur_avg = avgNum(x => x.metricas?.duration_ms ? x.metricas.duration_ms/1000 : null);
+        const tok_avg      = avgNum(x => x.metricas?.tokens?.output_tokens || x.metricas?.tokens?.total_tokens || null);
+        const inputTok_avg = avgNum(x => x.metricas?.tokens?.input_tokens  || null);
+        const outputTok_avg= avgNum(x => x.metricas?.tokens?.output_tokens || null);
+        // Normaliza avaliação do formato lzbot → formato viewer
+        const rawAv = items[0].avaliacao;
+        const avaliacao = rawAv ? {
+          nota_geral: rawAv.nota_geral,
+          resumo: rawAv.justificativa || rawAv.resumo || '',
+          criterios: Object.fromEntries([
+            ...(rawAv.criterios_atendidos||[]).map((c,i)=>[`✓_${i}`,{nota:10,justificativa:String(c)}]),
+            ...(rawAv.criterios_faltando||[]).map((c,i)=>[`✗_${i}`,{nota:0,justificativa:String(c)}]),
+          ]),
+        } : null;
+        const hasError = items[0].metricas && 'erro' in items[0].metricas;
+        tasks[tk] = {
+          nome:      TASK_NAMES[tk] || tk,
+          tps:       dur_avg,
+          tokens:    tok_avg,
+          inputTok:  inputTok_avg,
+          outputTok: outputTok_avg,
+          tempo:     dur_avg,
+          notaGeral: notaVals.length ? notaVals.reduce((a,b)=>a+b,0)/notaVals.length : null,
+          avaliacao,
+          resposta:       items[0].resposta || '',
+          prompt:         items[0].prompt || '',
+          prompt_analise: items[0].prompt_analise || '',
+          artefatos: items[0].artefatos || [],
+          hasError,
+          erroMsg:   hasError ? String(items[0].metricas.erro).slice(0,200) : null,
+        };
+      });
+      return { ...parsed, tasks };
+    }).filter(Boolean);
+  }
+
+  /* Agrega tokens, tempo e nota de todos os modelos num run */
+  function computeRunStats(raw, ts) {
+    let totalTokens=0, totalMs=0, notaSum=0, notaCount=0, errorCount=0, taskCount=0;
+    Object.values(raw.modelos).forEach(m => {
+      const run = m.runs.find(r => r.timestamp === ts);
+      if (!run) return;
+      Object.values(run.respostas || {}).forEach(task => {
+        taskCount++;
+        totalTokens += task.metricas?.tokens?.total_tokens || task.metricas?.tokens?.output_tokens || 0;
+        totalMs     += task.metricas?.duration_ms || 0;
+        if (task.metricas && 'erro' in task.metricas) errorCount++;
+        if (task.avaliacao?.nota_geral != null) { notaSum += task.avaliacao.nota_geral; notaCount++; }
+      });
+    });
+    return { totalTokens, totalMs, avgNota: notaCount ? notaSum/notaCount : null, errorCount, taskCount };
+  }
+
+  function fmtTokens(n) {
+    if (!n) return '—';
+    if (n >= 1_000_000) return (n/1_000_000).toFixed(1) + 'M';
+    if (n >= 1_000)     return Math.round(n/1_000) + 'k';
+    return String(n);
+  }
+
+  function modelKeyToOr(key) {
+    // Converte chave local → ID do OpenRouter:
+    // openrouter_qwen_qwen3-next_free → qwen/qwen3-next:free (não /free)
+    const base = key.replace(/_/g, '/').replace(/^openrouter\//, '');
+    return base.replace(/\/free$/, ':free');
+  }
+
+  // Custo = input × prompt_price + output × completion_price (sem desconto de cache)
+  function computeCost(inputTok, outputTok, prices) {
+    if (!prices) return null;
+    const c = (inputTok||0) * prices.prompt + (outputTok||0) * prices.completion;
+    return c > 0 ? c : null;
+  }
+
+  function fmtCost(usd) {
+    if (usd == null || usd <= 0) return null;
+    if (usd < 0.00001) return '<$0.00001';
+    if (usd < 0.001)   return '$' + usd.toFixed(5);
+    if (usd < 0.01)    return '$' + usd.toFixed(4);
+    if (usd < 1)       return '$' + usd.toFixed(3);
+    return '$' + usd.toFixed(2);
+  }
+
+  function fmtMmSs(sec) {
+    if (!sec && sec !== 0) return '—';
+    const m = Math.floor(sec / 60);
+    const s = Math.round(sec % 60);
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function fmtDuration(ms) {
+    if (!ms) return '—';
+    const s = Math.round(ms/1000);
+    if (s < 60)   return s + 's';
+    const m = Math.floor(s/60), rem = s%60;
+    if (m < 60)   return m + 'm' + (rem ? rem + 's' : '');
+    return Math.floor(m/60) + 'h' + (m%60 ? (m%60) + 'm' : '');
+  }
+
+  function computeMaxes(models) {
+    const maxTps = {}, maxTok = {};
+    models.forEach(m => Object.entries(m.tasks).forEach(([k,v]) => {
+      maxTps[k] = Math.max(maxTps[k]||0, v.tps);
+      maxTok[k] = Math.max(maxTok[k]||0, v.tokens||0);
+    }));
+    return { maxTps, maxTok };
+  }
+
+  // Score = nota normalizada 0–100 (sem TPS — API não tem latência significativa)
+  function qsIndex(_tps, _maxTps, notaGeral) {
+    if (notaGeral==null) return 0;
+    return Math.max(notaGeral/10,0)*100;
+  }
+  function fmtQsi(q)     { return q.toFixed(1); }
+  function notaColor(n)  { return n>=8?'#56d364':n>=6?'#e3b341':'#f85149'; }
+  function qsiColor(q)   { return q>=80?'#56d364':q>=60?'#e3b341':'#f85149'; }
+  function hexRgb(hex)   { return hex.slice(1).match(/../g).map(h=>parseInt(h,16)); }
+  // Tokens: menos é melhor — cor invertida em relação ao máximo do task
+  function tokColor(tok, maxTok) {
+    if (!tok || !maxTok) return 'var(--text-dim)';
+    const r = tok / maxTok;
+    return r <= 0.35 ? '#56d364' : r <= 0.65 ? '#e3b341' : '#f85149';
+  }
+
+  /* ── Bar ─────────────────────────────────────── */
+  const Bar = ({val,max,color,h=3}) => (
+    <div style={{height:h,background:'var(--bar-track)',borderRadius:2,overflow:'hidden',marginTop:4}}>
+      <div style={{width:`${Math.max(2,(val/(max||1))*100)}%`,height:'100%',background:color,borderRadius:2,transition:'width 0.3s ease'}}/>
+    </div>
+  );
+
+  /* ── Markdown ────────────────────────────────── */
+  const MarkdownBlock = ({ content }) => {
+    const html = React.useMemo(() => {
+      if (!content) return '<em style="color:var(--text-dim)">—</em>';
+      if (typeof window.marked !== 'undefined') return window.marked.parse(content);
+      return `<pre style="white-space:pre-wrap;font-size:12px">${content.replace(/</g,'&lt;')}</pre>`;
+    }, [content]);
+    return <div className="md-content" dangerouslySetInnerHTML={{ __html: html }}/>;
+  };
+
+  const Accordion = ({ items, defaultOpen = null }) => {
+    const [openIdx, setOpenIdx] = React.useState(defaultOpen);
+    return (
+      <div style={{border:'1px solid var(--border)',borderRadius:8,overflow:'hidden'}}>
+        {items.map(({title, accent, content}, i) => (
+          <div key={i} style={{borderBottom:i<items.length-1?'1px solid var(--border)':'none'}}>
+            <button onClick={()=>setOpenIdx(openIdx===i?null:i)} style={{
+              width:'100%',padding:'10px 14px',
+              background:openIdx===i?'var(--bg-hover)':'var(--bg)',
+              border:'none',cursor:'pointer',display:'flex',alignItems:'center',
+              justifyContent:'space-between',color:'var(--text)',fontFamily:'inherit',
+              fontSize:11,fontWeight:600,textAlign:'left',
+            }}>
+              <span style={{display:'flex',alignItems:'center',gap:7}}>
+                {accent&&<span style={{width:6,height:6,borderRadius:'50%',background:accent,flexShrink:0}}/>}
+                {title}
+              </span>
+              <span style={{fontSize:9,color:'var(--text-dim)'}}>{openIdx===i?'▴':'▾'}</span>
+            </button>
+            {openIdx===i&&(
+              <div style={{borderTop:'1px solid var(--border)',padding:'12px 14px',
+                background:'var(--bg-hover)',maxHeight:380,overflowY:'auto'}}>
+                {content}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  /* ── MD5 / short_id (replica do manage_benchmark.py) ─── */
+  function md5hex(str) {
+    function add(x,y){var l=(x&65535)+(y&65535);return((x>>16)+(y>>16)+(l>>16)<<16)|(l&65535);}
+    function rol(x,n){return x<<n|x>>>32-n;}
+    function cmn(q,a,b,x,s,t){return add(rol(add(add(a,q),add(x,t)),s),b);}
+    function ff(a,b,c,d,x,s,t){return cmn((b&c)|(~b&d),a,b,x,s,t);}
+    function gg(a,b,c,d,x,s,t){return cmn((b&d)|(c&~d),a,b,x,s,t);}
+    function hh(a,b,c,d,x,s,t){return cmn(b^c^d,a,b,x,s,t);}
+    function ii(a,b,c,d,x,s,t){return cmn(c^(b|~d),a,b,x,s,t);}
+    function words(s) {
+      var W=[];for(var i=0;i<s.length*8;i+=8)W[i>>5]|=(s.charCodeAt(i/8)&255)<<i%32;
+      W[s.length*8>>5]|=128<<s.length*8%32;W[(((s.length*8+64)>>>9)<<4)+14]=s.length*8;return W;
+    }
+    var M=words(str),l=M.length,a=1732584193,b=-271733879,c=-1732584194,d=271733878;
+    for(var i=0;i<l;i+=16){var A=a,B=b,C=c,D=d;
+      a=ff(a,b,c,d,M[i],7,-680876936);d=ff(d,a,b,c,M[i+1],12,-389564586);c=ff(c,d,a,b,M[i+2],17,606105819);b=ff(b,c,d,a,M[i+3],22,-1044525330);
+      a=ff(a,b,c,d,M[i+4],7,-176418897);d=ff(d,a,b,c,M[i+5],12,1200080426);c=ff(c,d,a,b,M[i+6],17,-1473231341);b=ff(b,c,d,a,M[i+7],22,-45705983);
+      a=ff(a,b,c,d,M[i+8],7,1770035416);d=ff(d,a,b,c,M[i+9],12,-1958414417);c=ff(c,d,a,b,M[i+10],17,-42063);b=ff(b,c,d,a,M[i+11],22,-1990404162);
+      a=ff(a,b,c,d,M[i+12],7,1804603682);d=ff(d,a,b,c,M[i+13],12,-40341101);c=ff(c,d,a,b,M[i+14],17,-1502002290);b=ff(b,c,d,a,M[i+15],22,1236535329);
+      a=gg(a,b,c,d,M[i+1],5,-165796510);d=gg(d,a,b,c,M[i+6],9,-1069501632);c=gg(c,d,a,b,M[i+11],14,643717713);b=gg(b,c,d,a,M[i],20,-373897302);
+      a=gg(a,b,c,d,M[i+5],5,-701558691);d=gg(d,a,b,c,M[i+10],9,38016083);c=gg(c,d,a,b,M[i+15],14,-660478335);b=gg(b,c,d,a,M[i+4],20,-405537848);
+      a=gg(a,b,c,d,M[i+9],5,568446438);d=gg(d,a,b,c,M[i+14],9,-1019803690);c=gg(c,d,a,b,M[i+3],14,-187363961);b=gg(b,c,d,a,M[i+8],20,1163531501);
+      a=gg(a,b,c,d,M[i+13],5,-1444681467);d=gg(d,a,b,c,M[i+2],9,-51403784);c=gg(c,d,a,b,M[i+7],14,1735328473);b=gg(b,c,d,a,M[i+12],20,-1926607734);
+      a=hh(a,b,c,d,M[i+5],4,-378558);d=hh(d,a,b,c,M[i+8],11,-2022574463);c=hh(c,d,a,b,M[i+11],16,1839030562);b=hh(b,c,d,a,M[i+14],23,-35309556);
+      a=hh(a,b,c,d,M[i+1],4,-1530992060);d=hh(d,a,b,c,M[i+4],11,1272893353);c=hh(c,d,a,b,M[i+7],16,-155497632);b=hh(b,c,d,a,M[i+10],23,-1094730640);
+      a=hh(a,b,c,d,M[i+13],4,681279174);d=hh(d,a,b,c,M[i],11,-358537222);c=hh(c,d,a,b,M[i+3],16,-722521979);b=hh(b,c,d,a,M[i+6],23,76029189);
+      a=hh(a,b,c,d,M[i+9],4,-640364487);d=hh(d,a,b,c,M[i+12],11,-421815835);c=hh(c,d,a,b,M[i+15],16,530742520);b=hh(b,c,d,a,M[i+2],23,-995338651);
+      a=ii(a,b,c,d,M[i],6,-198630844);d=ii(d,a,b,c,M[i+7],10,1126891415);c=ii(c,d,a,b,M[i+14],15,-1416354905);b=ii(b,c,d,a,M[i+5],21,-57434055);
+      a=ii(a,b,c,d,M[i+12],6,1700485571);d=ii(d,a,b,c,M[i+3],10,-1894986606);c=ii(c,d,a,b,M[i+10],15,-1051523);b=ii(b,c,d,a,M[i+1],21,-2054922799);
+      a=ii(a,b,c,d,M[i+8],6,1873313359);d=ii(d,a,b,c,M[i+15],10,-30611744);c=ii(c,d,a,b,M[i+6],15,-1560198380);b=ii(b,c,d,a,M[i+13],21,1309151649);
+      a=ii(a,b,c,d,M[i+4],6,-145523070);d=ii(d,a,b,c,M[i+11],10,-1120210379);c=ii(c,d,a,b,M[i+2],15,718787259);b=ii(b,c,d,a,M[i+9],21,-343485551);
+      a=add(a,A);b=add(b,B);c=add(c,C);d=add(d,D);
+    }
+    function w2h(n){var h='';for(var j=0;j<4;j++){h+='0123456789abcdef'[(n>>(j*8+4))&15]+'0123456789abcdef'[(n>>(j*8))&15];}return h;}
+    return w2h(a)+w2h(b)+w2h(c)+w2h(d);
+  }
+
+  function shortId(ts) { return md5hex(ts).slice(0,4).toUpperCase(); }
+
+  /* ── Artifact Viewers ───────────────────────── */
+
+  function parseJsonl(text) {
+    return text.split('\n').filter(l=>l.trim()).map(l=>{try{return JSON.parse(l);}catch{return null;}}).filter(Boolean);
+  }
+
+  function fmtStepTime(sec) {
+    if (sec == null || sec < 0) return null;
+    if (sec < 1)  return sec.toFixed(3) + 's';
+    if (sec < 60) return sec.toFixed(1) + 's';
+    return Math.floor(sec/60) + 'm ' + (sec%60).toFixed(0) + 's';
+  }
+
+  const SessionViewer = ({ url }) => {
+    const [entries, setEntries] = React.useState(null);
+    const [err, setErr]         = React.useState(null);
+    React.useEffect(() => {
+      fetch(url + '?' + Date.now())
+        .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
+        .then(text=>setEntries(parseJsonl(text)))
+        .catch(e=>setErr(e.message));
+    }, [url]);
+    if (err)      return <div style={{color:'#f85149',fontSize:11,fontFamily:'JetBrains Mono,monospace'}}>Erro: {err}</div>;
+    if (!entries) return <div style={{color:'var(--text-dim)',fontSize:11,fontStyle:'italic'}}>Carregando…</div>;
+
+    const modelEntry = entries.find(e=>e.type==='model_change');
+    const messages   = entries.filter(e=>e.type==='message' && e.message?.role);
+
+    // Mapa toolCallId → toolResult msg para combinar num bloco só
+    const resultMap = {};
+    messages.forEach(e => {
+      const m = e.message;
+      if (m.role === 'toolResult' && m.toolCallId) resultMap[m.toolCallId] = m;
+    });
+    // IDs de toolResults já consumidos inline (não renderizar separado)
+    const consumed = new Set();
+
+    const renderToolResult = (res) => {
+      if (!res) return null;
+      const isErr   = res.isError;
+      const content = Array.isArray(res.content) ? res.content : [];
+      const text    = content.filter(c=>c.type==='text').map(c=>c.text).join('\n');
+      const images  = content.filter(c=>c.type==='image');
+      const bdr = isErr ? 'rgba(248,81,73,0.25)' : 'rgba(139,148,158,0.15)';
+      return (
+        <div style={{borderTop:`1px solid ${bdr}`,padding:'0'}}>
+          {images.map((img,ii)=>(
+            <img key={ii} src={`data:${img.mediaType};base64,${img.data}`}
+              style={{maxWidth:'100%',display:'block'}} alt="screenshot"/>
+          ))}
+          {text && (
+            <div style={{padding:'6px 10px',fontSize:10,
+              color:isErr?'#f85149':'var(--text-muted)',lineHeight:1.5,
+              maxHeight:140,overflowY:'auto',fontFamily:'JetBrains Mono,monospace',
+              whiteSpace:'pre-wrap',wordBreak:'break-all'}}>
+              {text.length>700 ? text.slice(0,700)+'…' : text}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    return (
+      <div style={{display:'flex',flexDirection:'column',gap:4,maxHeight:500,overflowY:'auto',paddingRight:4}}>
+        {modelEntry && (
+          <div style={{fontSize:9,color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',
+            marginBottom:6,padding:'2px 8px',background:'var(--badge-bg)',borderRadius:4,
+            display:'inline-block',alignSelf:'flex-start'}}>
+            {modelEntry.provider} / {modelEntry.modelId}
+          </div>
+        )}
+        {messages.map((entry,i) => {
+          const msg  = entry.message;
+          const role = msg.role;
+          const prevTs = i > 0 ? messages[i-1].timestamp : null;
+          const elapsed = (entry.timestamp && prevTs)
+            ? (new Date(entry.timestamp) - new Date(prevTs)) / 1000
+            : null;
+          const elapsedLabel = elapsed != null && elapsed >= 0.05 ? fmtStepTime(elapsed) : null;
+
+          // toolResults renderizados inline com o toolCall — pula aqui
+          if (role === 'toolResult') {
+            if (consumed.has(msg.toolCallId)) return null;
+            // toolResult órfão (sem toolCall anterior) — renderiza standalone
+            const isErr   = msg.isError;
+            const bdr = isErr ? 'rgba(248,81,73,0.3)' : 'rgba(139,148,158,0.18)';
+            const bg  = isErr ? 'rgba(248,81,73,0.05)' : 'transparent';
+            const content = Array.isArray(msg.content) ? msg.content : [];
+            const text    = content.filter(c=>c.type==='text').map(c=>c.text).join('\n');
+            const images  = content.filter(c=>c.type==='image');
+            return (
+              <div key={i} style={{alignSelf:'flex-start',maxWidth:'95%',marginBottom:2}}>
+                <div style={{border:`1px solid ${bdr}`,borderRadius:6,overflow:'hidden',background:bg}}>
+                  <div style={{padding:'3px 8px',fontSize:9,fontWeight:700,
+                    color:isErr?'#f85149':'#8b949e',fontFamily:'JetBrains Mono,monospace',
+                    background:isErr?'rgba(248,81,73,0.08)':'rgba(139,148,158,0.06)'}}>
+                    {isErr?'✗':'✓'} {msg.toolName}
+                  </div>
+                  {images.map((img,ii)=>(
+                    <img key={ii} src={`data:${img.mediaType};base64,${img.data}`}
+                      style={{maxWidth:'100%',display:'block'}} alt="screenshot"/>
+                  ))}
+                  {text && (
+                    <div style={{padding:'6px 10px',fontSize:10,color:isErr?'#f85149':'var(--text-muted)',
+                      lineHeight:1.5,maxHeight:120,overflowY:'auto',fontFamily:'JetBrains Mono,monospace',
+                      whiteSpace:'pre-wrap',wordBreak:'break-all'}}>
+                      {text.length>600?text.slice(0,600)+'…':text}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          }
+
+          if (role === 'user') {
+            const text = Array.isArray(msg.content)
+              ? msg.content.filter(c=>c.type==='text').map(c=>c.text).join('\n')
+              : (msg.content||'');
+            if (!text.trim()) return null;
+            return (
+              <div key={i} style={{alignSelf:'flex-end',maxWidth:'85%',marginBottom:2}}>
+                {elapsedLabel && <div style={{textAlign:'right',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'#56d364',opacity:.7,marginBottom:2}}>+{elapsedLabel}</div>}
+                <div style={{background:'rgba(56,139,253,0.1)',border:'1px solid rgba(56,139,253,0.25)',
+                  borderRadius:'10px 10px 2px 10px',padding:'7px 12px',fontSize:11,
+                  color:'var(--text)',lineHeight:1.5}}>
+                  {text}
+                </div>
+              </div>
+            );
+          }
+
+          if (role === 'assistant') {
+            const content = Array.isArray(msg.content) ? msg.content : [];
+            return (
+              <div key={i} style={{alignSelf:'flex-start',maxWidth:'95%',marginBottom:2,
+                display:'flex',flexDirection:'column',gap:3}}>
+                {content.map((c,ci) => {
+                  if (c.type==='thinking') return (
+                    <details key={ci} style={{border:'1px solid var(--border)',borderRadius:6,overflow:'hidden'}}>
+                      <summary style={{padding:'4px 10px',fontSize:10,color:'var(--text-dim)',
+                        cursor:'pointer',background:'var(--bg)',userSelect:'none',
+                        listStyle:'none',display:'flex',alignItems:'center',gap:6}}>
+                        <span>💭</span><span>Thinking</span>
+                        {ci===0 && elapsedLabel && <span style={{marginLeft:6,fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'#56d364',opacity:.8}}>+{elapsedLabel}</span>}
+                        <span style={{marginLeft:'auto',fontSize:9,opacity:.6}}>▾</span>
+                      </summary>
+                      <div style={{padding:'8px 10px',fontSize:10,color:'var(--text-dim)',
+                        fontStyle:'italic',lineHeight:1.6,background:'var(--bg)',
+                        maxHeight:200,overflowY:'auto',whiteSpace:'pre-wrap'}}>
+                        {c.thinking}
+                      </div>
+                    </details>
+                  );
+                  if (c.type==='toolCall') {
+                    // toolCall: campos corretos são c.name e c.arguments
+                    const toolName = c.name || c.toolName || '?';
+                    const args     = c.arguments || c.input || {};
+                    const preview  = JSON.stringify(args).slice(0,120);
+                    const result   = resultMap[c.id];
+                    if (result) consumed.add(c.id);
+                    const isErr    = result?.isError;
+                    const bdr      = isErr ? 'rgba(248,81,73,0.25)' : 'rgba(86,211,100,0.2)';
+                    return (
+                      <div key={ci} style={{border:`1px solid ${bdr}`,borderRadius:6,
+                        overflow:'hidden',background:isErr?'rgba(248,81,73,0.04)':'rgba(86,211,100,0.04)'}}>
+                        {/* Header: nome + args */}
+                        <div style={{padding:'5px 10px',display:'flex',alignItems:'center',gap:6,
+                          background:isErr?'rgba(248,81,73,0.07)':'rgba(86,211,100,0.07)',
+                          borderBottom:result?`1px solid ${bdr}`:'none'}}>
+                          <span style={{fontSize:9,fontWeight:700,
+                            color:isErr?'#f85149':'#56d364',
+                            fontFamily:'JetBrains Mono,monospace',background:isErr?'rgba(248,81,73,0.12)':'rgba(86,211,100,0.12)',
+                            padding:'1px 6px',borderRadius:3,flexShrink:0}}>
+                            {isErr?'✗':'✓'} {toolName}
+                          </span>
+                          <span style={{fontSize:9,color:'var(--text-dim)',overflow:'hidden',
+                            textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:'JetBrains Mono,monospace',flex:1}}>
+                            {preview}
+                          </span>
+                          {ci===0 && elapsedLabel && <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'#56d364',opacity:.8,flexShrink:0}}>+{elapsedLabel}</span>}
+                        </div>
+                        {/* Resultado inline */}
+                        {result && renderToolResult(result)}
+                      </div>
+                    );
+                  }
+                  if (c.type==='text' && c.text?.trim()) return (
+                    <div key={ci} style={{background:'var(--bg)',border:'1px solid var(--border)',
+                      borderRadius:'2px 10px 10px 10px',padding:'7px 12px',fontSize:11,
+                      color:'var(--text)',lineHeight:1.6}}>
+                      <MarkdownBlock content={c.text}/>
+                    </div>
+                  );
+                  return null;
+                })}
+                {msg.usage && (
+                  <div style={{fontSize:9,color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',
+                    alignSelf:'flex-end',marginTop:1}}>
+                    ↑{msg.usage.input} ↓{msg.usage.output}
+                    {msg.usage.reasoning ? ` 💭${msg.usage.reasoning}` : ''}
+                    {msg.usage.cache_read ? ` 💾${msg.usage.cache_read}` : ''}
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return null;
+        })}
+      </div>
+    );
+  };
+
+  const TrajectoryViewer = ({ url }) => {
+    const [entries, setEntries] = React.useState(null);
+    const [err, setErr]         = React.useState(null);
+    React.useEffect(() => {
+      fetch(url + '?' + Date.now())
+        .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
+        .then(text=>setEntries(parseJsonl(text)))
+        .catch(e=>setErr(e.message));
+    }, [url]);
+    if (err)      return <div style={{color:'#f85149',fontSize:11,fontFamily:'JetBrains Mono,monospace'}}>Erro: {err}</div>;
+    if (!entries) return <div style={{color:'var(--text-dim)',fontSize:11,fontStyle:'italic'}}>Carregando…</div>;
+
+    const completed = entries.filter(e=>e.type==='model.completed');
+    const ended     = entries.find(e=>e.type==='session.ended');
+    const usage     = completed.reduce((acc,e)=>{
+      const u = e.data?.usage||{};
+      return {input:acc.input+(u.input||0), output:acc.output+(u.output||0),
+              reasoning:acc.reasoning+(u.reasoning||0), cache_read:acc.cache_read+(u.cache_read||0)};
+    }, {input:0,output:0,reasoning:0,cache_read:0});
+    const status   = ended?.data?.status || '?';
+    const termErr  = ended?.data?.terminalError;
+
+    const TYPE_CFG = {
+      'session.started':   { color:'#388bfd', label:'Sessão iniciada' },
+      'trace.metadata':    { color:'#8b949e', label:'Metadados' },
+      'context.compiled':  { color:'#e3b341', label:'Contexto compilado' },
+      'prompt.submitted':  { color:'#79c0ff', label:'Prompt enviado' },
+      'model.completed':   { color:'#56d364', label:'Modelo respondeu' },
+      'trace.artifacts':   { color:'#ff9f7f', label:'Artefatos capturados' },
+      'session.ended':     { color: status==='ok'?'#56d364':'#f85149', label:'Sessão encerrada' },
+    };
+
+    const fmtTok = n => n >= 1000 ? (n/1000).toFixed(1)+'k' : String(n);
+
+    return (
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        {/* Usage chips */}
+        {(usage.input + usage.output) > 0 && (
+          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+            {[
+              {label:'Input',     val:usage.input,      color:'#79c0ff'},
+              {label:'Output',    val:usage.output,     color:'#56d364'},
+              ...(usage.reasoning  > 0 ? [{label:'Reasoning', val:usage.reasoning,  color:'#e3b341'}] : []),
+              ...(usage.cache_read > 0 ? [{label:'Cache',     val:usage.cache_read, color:'#8b949e'}] : []),
+              {label:'Status', val:null, color:status==='ok'?'#56d364':'#f85149', text:status},
+            ].map(({label,val,color,text})=>(
+              <div key={label} style={{background:'var(--bg)',border:`1px solid ${color}22`,
+                borderRadius:6,padding:'5px 10px',textAlign:'center',minWidth:60}}>
+                <div style={{fontSize:8,color:'var(--text-dim)',textTransform:'uppercase',
+                  letterSpacing:'.06em',marginBottom:2}}>{label}</div>
+                <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:13,
+                  fontWeight:700,color,lineHeight:1}}>{text ?? fmtTok(val)}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        {termErr && (
+          <div style={{fontSize:10,color:'#f85149',fontFamily:'JetBrains Mono,monospace',
+            background:'rgba(248,81,73,0.07)',border:'1px solid rgba(248,81,73,0.2)',
+            borderRadius:5,padding:'5px 10px'}}>{termErr}</div>
+        )}
+        {/* Timeline */}
+        <div style={{position:'relative',paddingLeft:18}}>
+          <div style={{position:'absolute',left:6,top:4,bottom:4,width:1,background:'var(--border)'}}/>
+          {entries.map((e,i)=>{
+            const cfg   = TYPE_CFG[e.type] || {color:'var(--text-dim)',label:e.type};
+            let detail  = null;
+            if (e.type==='model.completed' && e.data?.usage) {
+              const u = e.data.usage;
+              detail = `↑${fmtTok(u.input||0)} ↓${fmtTok(u.output||0)}${u.reasoning?` 💭${fmtTok(u.reasoning)}`:''}`;
+            }
+            if (e.type==='context.compiled' && e.data?.prompt)
+              detail = e.data.prompt.slice(0,90) + (e.data.prompt.length>90?'…':'');
+            if (e.type==='session.ended' && termErr) detail = termErr;
+            return (
+              <div key={i} style={{display:'flex',alignItems:'flex-start',gap:8,
+                marginBottom:5,position:'relative'}}>
+                <div style={{position:'absolute',left:-12,top:5,width:8,height:8,borderRadius:'50%',
+                  background:cfg.color,border:'2px solid var(--bg)',flexShrink:0,zIndex:1}}/>
+                <div style={{flex:1,marginLeft:4}}>
+                  <div style={{display:'flex',alignItems:'center',gap:6}}>
+                    <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:10,
+                      fontWeight:600,color:cfg.color}}>{cfg.label}</span>
+                    {e.seq!=null && <span style={{fontSize:9,color:'var(--text-dim)',
+                      fontFamily:'JetBrains Mono,monospace'}}>#{e.seq}</span>}
+                  </div>
+                  {detail && <div style={{fontSize:9,color:'var(--text-dim)',
+                    marginTop:1,lineHeight:1.4,fontFamily:'JetBrains Mono,monospace'}}>{detail}</div>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  const LightboxViewer = ({ item, onClose }) => {
+    const [mdHtml, setMdHtml] = React.useState(null);
+
+    useEffect(() => {
+      const handler = e => { if (e.key==='Escape') onClose(); };
+      window.addEventListener('keydown', handler);
+      return () => window.removeEventListener('keydown', handler);
+    }, [onClose]);
+
+    // carrega e renderiza markdown via marked
+    useEffect(() => {
+      if (item.tipo !== 'md') return;
+      fetch(item.url)
+        .then(r => r.text())
+        .then(txt => setMdHtml(window.marked ? window.marked.parse(txt) : `<pre>${txt}</pre>`))
+        .catch(() => setMdHtml('<p style="color:var(--text-muted)">Erro ao carregar arquivo.</p>'));
+    }, [item.url, item.tipo]);
+
+    return (
+      <div onClick={onClose}
+        style={{position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.85)',
+          display:'flex',alignItems:'center',justifyContent:'center',cursor:'zoom-out',padding:20}}>
+        <div onClick={e=>e.stopPropagation()}
+          style={{position:'relative',maxWidth:'92vw',maxHeight:'90vh',width: item.tipo==='png' ? 'auto' : '92vw',
+            background:'var(--bg-surface)',borderRadius:10,overflow:'hidden',
+            boxShadow:'0 8px 40px rgba(0,0,0,0.7)',display:'flex',flexDirection:'column',cursor:'default'}}>
+          <div style={{position:'absolute',top:8,right:8,zIndex:1,display:'flex',gap:6}}>
+            {item.tipo==='html' && (
+              <a href={item.url} target="_blank" rel="noreferrer"
+                style={{background:'rgba(0,0,0,0.5)',border:'none',borderRadius:6,color:'#fff',cursor:'pointer',
+                  width:28,height:28,fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',
+                  textDecoration:'none'}}
+                title="Abrir em nova aba">
+                ↗
+              </a>
+            )}
+            <button onClick={onClose}
+              style={{background:'rgba(0,0,0,0.5)',border:'none',borderRadius:6,color:'#fff',cursor:'pointer',
+                width:28,height:28,fontSize:16,display:'flex',alignItems:'center',justifyContent:'center'}}>
+              ✕
+            </button>
+          </div>
+          {item.tipo==='png' && (
+            <img src={item.url} alt={item.nome}
+              style={{maxWidth:'88vw',maxHeight:'86vh',objectFit:'contain',display:'block'}}/>
+          )}
+          {item.tipo==='html' && (
+            <iframe src={item.url} title={item.nome}
+              style={{width:'88vw',height:'82vh',border:'none',display:'block'}}/>
+          )}
+          {item.tipo==='md' && (
+            <div style={{overflowY:'auto',maxHeight:'86vh',padding:'24px 28px',
+              fontFamily:'Inter,system-ui,sans-serif',fontSize:13,lineHeight:1.7,color:'var(--text)',
+              minWidth:400, width:'min(72ch, 88vw)'}}>
+              <div style={{fontSize:11,color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',marginBottom:16}}>
+                {item.nome}
+              </div>
+              {mdHtml
+                ? <div className="md-body" dangerouslySetInnerHTML={{__html: mdHtml}}/>
+                : <span style={{color:'var(--text-dim)'}}>Carregando…</span>
+              }
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const ArtifatosViewer = ({ artefatos }) => {
+    const [expanded, setExpanded] = React.useState({});
+    const [lightbox, setLightbox] = React.useState(null); // { url, tipo }
+    const toggle = k => setExpanded(p=>({...p,[k]:!p[k]}));
+
+    const ICONS = {png:'🖼',html:'📄',json:'{}',txt:'📝',cjs:'⚙',mjs:'⚙',md:'📝'};
+    // exclui trajectory-path (arquivo de rota interna, sem valor visual)
+    const regular     = artefatos.filter(a=>a.tipo!=='jsonl' && !a.nome.includes('trajectory-path') && !a.nome.includes('trajectory_path'));
+    const sessions    = artefatos.filter(a=>a.tipo==='jsonl' && a.nome.includes('session') && !a.nome.includes('trajectory'));
+    const trajectories= artefatos.filter(a=>a.tipo==='jsonl' && a.nome.includes('trajectory') && !a.nome.includes('path'));
+
+    return (
+      <div style={{display:'flex',flexDirection:'column',gap:8}}>
+        {/* lightbox para PNG, HTML e MD */}
+        {lightbox && (
+          <LightboxViewer item={lightbox} onClose={()=>setLightbox(null)}/>
+        )}
+        {regular.length > 0 && (
+          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+            {regular.map((a,i)=>{
+              const icon = ICONS[a.tipo]||'📎';
+              const kb = (a.tamanho_bytes/1024).toFixed(1);
+              const isLightboxable = a.tipo==='png' || a.tipo==='html' || a.tipo==='md';
+              // png e html abrem em lightbox; demais abrem em nova aba
+              if (isLightboxable) return (
+                <button key={i} onClick={()=>setLightbox({url:a.caminho_relativo,tipo:a.tipo,nome:a.nome})}
+                  style={{display:'inline-flex',alignItems:'center',gap:5,
+                    padding:'5px 10px',borderRadius:6,border:'1px solid var(--border)',
+                    background:'var(--bg)',color:'var(--text)',cursor:'pointer',
+                    fontSize:11,fontFamily:'JetBrains Mono,monospace',transition:'border-color 0.1s'}}
+                  onMouseEnter={e=>e.currentTarget.style.borderColor='var(--border-sep)'}
+                  onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
+                  <span style={{fontSize:14}}>{icon}</span>
+                  <span>{a.nome}</span>
+                  <span style={{color:'var(--text-dim)',fontSize:9}}>{kb}KB</span>
+                </button>
+              );
+              return (
+                <a key={i} href={a.caminho_relativo} target="_blank" rel="noreferrer"
+                  style={{display:'inline-flex',alignItems:'center',gap:5,
+                    padding:'5px 10px',borderRadius:6,border:'1px solid var(--border)',
+                    background:'var(--bg)',color:'var(--text)',textDecoration:'none',
+                    fontSize:11,fontFamily:'JetBrains Mono,monospace',transition:'border-color 0.1s'}}
+                  onMouseEnter={e=>e.currentTarget.style.borderColor='var(--border-sep)'}
+                  onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
+                  <span style={{fontSize:14}}>{icon}</span>
+                  <span>{a.nome}</span>
+                  <span style={{color:'var(--text-dim)',fontSize:9}}>{kb}KB</span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+        {sessions.map((a,i)=>{
+          const k = 'sess-'+i;
+          const kb = (a.tamanho_bytes/1024).toFixed(1);
+          return (
+            <div key={k} style={{border:'1px solid var(--border)',borderRadius:8,overflow:'hidden'}}>
+              <button onClick={()=>toggle(k)} style={{width:'100%',padding:'8px 12px',background:'var(--bg)',
+                border:'none',cursor:'pointer',display:'flex',alignItems:'center',gap:8,
+                color:'var(--text)',fontFamily:'inherit',fontSize:11,transition:'background 0.1s'}}
+                onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
+                onMouseLeave={e=>e.currentTarget.style.background='var(--bg)'}>
+                <span>💬</span>
+                <span style={{fontWeight:600}}>Transcrição</span>
+                <span style={{fontSize:9,color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace'}}>{a.nome} · {kb}KB</span>
+                <span style={{marginLeft:'auto',fontSize:9,color:'var(--text-dim)'}}>{expanded[k]?'▴':'▾'}</span>
+              </button>
+              {expanded[k] && (
+                <div style={{borderTop:'1px solid var(--border)',padding:'10px 12px',background:'var(--bg-hover)'}}>
+                  <SessionViewer url={a.caminho_relativo}/>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {trajectories.map((a,i)=>{
+          const k = 'traj-'+i;
+          const kb = (a.tamanho_bytes/1024).toFixed(1);
+          return (
+            <div key={k} style={{border:'1px solid var(--border)',borderRadius:8,overflow:'hidden'}}>
+              <button onClick={()=>toggle(k)} style={{width:'100%',padding:'8px 12px',background:'var(--bg)',
+                border:'none',cursor:'pointer',display:'flex',alignItems:'center',gap:8,
+                color:'var(--text)',fontFamily:'inherit',fontSize:11,transition:'background 0.1s'}}
+                onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
+                onMouseLeave={e=>e.currentTarget.style.background='var(--bg)'}>
+                <span>📊</span>
+                <span style={{fontWeight:600}}>Trace de Execução</span>
+                <span style={{fontSize:9,color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace'}}>{a.nome} · {kb}KB</span>
+                <span style={{marginLeft:'auto',fontSize:9,color:'var(--text-dim)'}}>{expanded[k]?'▴':'▾'}</span>
+              </button>
+              {expanded[k] && (
+                <div style={{borderTop:'1px solid var(--border)',padding:'10px 12px',background:'var(--bg-hover)'}}>
+                  <TrajectoryViewer url={a.caminho_relativo}/>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  /* ── Modal ───────────────────────────────────── */
+  const Modal = ({ data, models, visibleMetrics, modelPrices, onClose, onNavigate }) => {
+    if (!data) return null;
+    const { type, modelIdx, groupKey, taskKey } = data;
+    const model = models[modelIdx];
+    const group = GROUPS.find(g=>g.key===groupKey);
+
+    // lista plana de todas as tasks para navegação ←/→
+    const allTasks = GROUPS.flatMap(g => g.tasks.map(tk => ({groupKey: g.key, taskKey: tk})));
+    const curTaskIdx = taskKey ? allTasks.findIndex(t => t.groupKey===groupKey && t.taskKey===taskKey) : -1;
+    const canLeft  = curTaskIdx > 0;
+    const canRight = curTaskIdx < allTasks.length - 1;
+    const canUp    = modelIdx > 0;
+    const canDown  = modelIdx < models.length - 1;
+
+    useEffect(() => {
+      const handler = e => {
+        if (e.key==='Escape') { onClose(); return; }
+        // ignora setas dentro de inputs/textareas para não interferir com scroll
+        if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+        if (e.key==='ArrowLeft'  && canLeft)  { e.preventDefault(); const t=allTasks[curTaskIdx-1]; onNavigate({...data,groupKey:t.groupKey,taskKey:t.taskKey}); }
+        if (e.key==='ArrowRight' && canRight) { e.preventDefault(); const t=allTasks[curTaskIdx+1]; onNavigate({...data,groupKey:t.groupKey,taskKey:t.taskKey}); }
+        if (e.key==='ArrowUp'    && canUp)    { e.preventDefault(); onNavigate({...data,modelIdx:modelIdx-1}); }
+        if (e.key==='ArrowDown'  && canDown)  { e.preventDefault(); onNavigate({...data,modelIdx:modelIdx+1}); }
+      };
+      window.addEventListener('keydown', handler);
+      return () => window.removeEventListener('keydown', handler);
+    }, [data, canLeft, canRight, canUp, canDown]);
+
+    // Render a single task's full details
+    const TaskDetail = ({ task }) => {
+      if (!task) return <div style={{color:'var(--text-muted)',fontSize:12}}>Sem dados para esta tarefa.</div>;
+      const av = task.avaliacao;
+      const nc = task.notaGeral!=null ? notaColor(task.notaGeral) : 'var(--text-dim)';
+      const mpr = modelPrices[modelKeyToOr(model.key)];
+      const taskCost = computeCost(task.inputTok, task.outputTok, mpr);
+      const costStr  = fmtCost(taskCost);
+
+      return (
+        <div style={{display:'flex',flexDirection:'column',gap:16}}>
+          {/* Scores row: Nota · Tokens · Tempo · Custo */}
+          <div style={{display:'flex',gap:10}}>
+            {[
+              { label:'Nota',   val:task.notaGeral!=null?task.notaGeral.toFixed(1):'—', color:nc,                  sub:'/10'     },
+              { label:'Tokens', val:task.tokens>0?Math.round(task.tokens).toLocaleString('pt-BR'):'—', color:'var(--text-muted)', sub:'output' },
+              { label:'Tempo',  val:task.tps>0?fmtMmSs(task.tps):'—',                  color:'var(--text)',        sub:'duração' },
+              { label:'Custo',  val:costStr||'—',                                       color:'#e3b341',            sub:'USD'     },
+            ].map(({label,val,color,sub}) => (
+              <div key={label} style={{flex:1,background:'var(--bg)',border:'1px solid var(--border)',
+                borderRadius:8,padding:'10px 12px',textAlign:'center'}}>
+                <div style={{fontSize:9,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'var(--text-dim)',marginBottom:4}}>{label}</div>
+                <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:20,fontWeight:700,color,lineHeight:1}}>{val}</div>
+                <div style={{fontSize:9,color:'var(--text-dim)',marginTop:2}}>{sub}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Resumo */}
+          {av?.resumo && (
+            <div>
+              <div className="modal-section-label">Resumo</div>
+              <div className="modal-resumo">{av.resumo}</div>
+            </div>
+          )}
+
+          {/* Resposta e prompts */}
+          {(() => {
+            const accordionItems = [
+              ...(task.resposta ? [{ title:'Resposta do Modelo', accent:'#56d364', content:<MarkdownBlock content={task.resposta}/> }] : []),
+              ...(task.prompt ? [{ title:'Prompt da Pergunta', accent:'#79c0ff', content:<MarkdownBlock content={task.prompt}/> }] : []),
+              ...(task.prompt_analise ? [{ title:'Prompt de Avaliação', accent:'#e3b341', content:<MarkdownBlock content={task.prompt_analise}/> }] : []),
+            ];
+            if (!accordionItems.length) return null;
+            return (
+              <div>
+                <div className="modal-section-label">Resposta & Prompts</div>
+                <Accordion items={accordionItems} defaultOpen={window.innerWidth > 640 ? 0 : null}/>
+              </div>
+            );
+          })()}
+
+          {/* Criterios */}
+          {av?.criterios && (
+            <div>
+              <div className="modal-section-label">Critérios de Avaliação</div>
+              <div style={{border:'1px solid var(--border)',borderRadius:8,overflow:'hidden'}}>
+                {Object.entries(av.criterios).map(([ck,cv],i) => (
+                  <div key={ck} className="criterio-row" style={{padding:'10px 14px',background:i%2===0?'transparent':'rgba(0,0,0,0.02)'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:5}}>
+                      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:700,
+                        color:notaColor(cv.nota||0),minWidth:28,textAlign:'right'}}>{cv.nota!=null?cv.nota:'—'}</span>
+                      <div style={{flex:1,height:4,background:'var(--bar-track)',borderRadius:2,overflow:'hidden'}}>
+                        <div style={{width:`${((cv.nota||0)/10)*100}%`,height:'100%',background:notaColor(cv.nota||0),borderRadius:2}}/>
+                      </div>
+                      <span style={{fontSize:9,color:'var(--text-dim)',minWidth:28}}>/10</span>
+                      <span style={{fontSize:11,fontWeight:600,color:'var(--text)',flex:2}}>{fmtKey(ck)}</span>
+                    </div>
+                    <p style={{fontSize:11,color:'var(--text-muted)',lineHeight:1.6,marginLeft:38,marginRight:8}}>
+                      {cv.justificativa}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Artefatos */}
+          {task.artefatos?.length > 0 && (
+            <div>
+              <div className="modal-section-label">Artefatos</div>
+              <ArtifatosViewer artefatos={task.artefatos}/>
+            </div>
+          )}
+
+          {/* Erro */}
+          {task.hasError && (
+            <div>
+              <div className="modal-section-label">Erro</div>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,color:'#f85149',
+                background:'rgba(248,81,73,0.08)',border:'1px solid rgba(248,81,73,0.2)',
+                borderRadius:6,padding:'10px 12px',wordBreak:'break-all'}}>
+                {task.erroMsg}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Group modal: list all tasks
+    const GroupModal = () => (
+      <div style={{display:'flex',flexDirection:'column',gap:14}}>
+        {group.tasks.map(tk => {
+          const task = model.tasks[tk];
+          if (!task) return null;
+          const av   = task.avaliacao;
+          const nc   = task.notaGeral!=null ? notaColor(task.notaGeral) : 'var(--text-dim)';
+          const mpr  = modelPrices[modelKeyToOr(model.key)];
+          const cs   = fmtCost(computeCost(task.inputTok, task.outputTok, mpr));
+          return (
+            <div key={tk} style={{border:'1px solid var(--border)',borderRadius:10,overflow:'hidden'}}>
+              <div style={{padding:'10px 14px',background:group.bg,
+                display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+                <span style={{fontWeight:600,fontSize:12,color:'var(--text)'}}>{task.nome}</span>
+                <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  {task.notaGeral!=null && <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:700,color:nc}}>{task.notaGeral.toFixed(1)}/10</span>}
+                  {task.tokens>0 && <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,color:'var(--text-dim)'}}>{task.tokens.toLocaleString('pt-BR')} tok</span>}
+                  {task.tps>0 && <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,color:'var(--text-dim)'}}>{fmtMmSs(task.tps)}</span>}
+                  {cs && <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:600,color:'#e3b341'}}>{cs}</span>}
+                </div>
+              </div>
+              {av?.resumo && (
+                <div style={{padding:'10px 14px',fontSize:11,color:'var(--text-muted)',lineHeight:1.6,background:'var(--bg-surface)'}}>
+                  {av.resumo}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+
+    const title = type==='task' ? (model.tasks[taskKey]?.nome || taskKey) : `${group.label} — visão geral`;
+    const accentColor = group?.color || 'var(--text-muted)';
+
+    return (
+      <div className="modal-overlay" onMouseDown={e => { if (e.target===e.currentTarget) onClose(); }}>
+        <div className="modal-card" style={{maxWidth:760}}>
+          {/* Header */}
+          <div className="modal-header">
+            <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12}}>
+              <div>
+                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:5}}>
+                  <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:10,fontWeight:600,
+                    padding:'2px 8px',borderRadius:20,border:`1px solid ${accentColor}`,color:accentColor}}>
+                    {group?.icon} {group?.label}
+                  </span>
+                  <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:10,color:'var(--text-dim)',
+                    background:'var(--badge-bg)',padding:'2px 8px',borderRadius:20}}>
+                    {model.name}
+                  </span>
+                </div>
+                <h2 style={{fontSize:15,fontWeight:700,color:'var(--text)',letterSpacing:'-0.3px',lineHeight:1.3}}>
+                  {title}
+                </h2>
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:5,flexShrink:0}}>
+                {/* nav ↑↓ modelo */}
+                <div style={{display:'flex',flexDirection:'column',gap:2}}>
+                  {[['▲',canUp,()=>onNavigate({...data,modelIdx:modelIdx-1})],
+                    ['▼',canDown,()=>onNavigate({...data,modelIdx:modelIdx+1})]].map(([lbl,enabled,fn])=>(
+                    <button key={lbl} onClick={enabled?fn:undefined}
+                      title={lbl==='▲'?'Modelo anterior (↑)':'Próximo modelo (↓)'}
+                      style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
+                        width:22,height:12,cursor:enabled?'pointer':'default',
+                        color:enabled?'var(--text-muted)':'var(--border)',
+                        fontSize:7,display:'flex',alignItems:'center',justifyContent:'center',
+                        opacity:enabled?1:0.3,transition:'all 0.1s'}}>
+                      {lbl}
+                    </button>
+                  ))}
+                </div>
+                {/* nav ←→ task */}
+                <div style={{display:'flex',gap:2}}>
+                  {[['◀',canLeft,()=>{const t=allTasks[curTaskIdx-1];onNavigate({...data,groupKey:t.groupKey,taskKey:t.taskKey});}],
+                    ['▶',canRight,()=>{const t=allTasks[curTaskIdx+1];onNavigate({...data,groupKey:t.groupKey,taskKey:t.taskKey});}]].map(([lbl,enabled,fn])=>(
+                    <button key={lbl} onClick={enabled?fn:undefined}
+                      title={lbl==='◀'?'Task anterior (←)':'Próxima task (→)'}
+                      style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
+                        width:22,height:26,cursor:enabled?'pointer':'default',
+                        color:enabled?'var(--text-muted)':'var(--border)',
+                        fontSize:9,display:'flex',alignItems:'center',justifyContent:'center',
+                        opacity:enabled?1:0.3,transition:'all 0.1s'}}>
+                      {lbl}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={onClose} style={{
+                  background:'none',border:'1px solid var(--border)',borderRadius:6,
+                  width:28,height:28,cursor:'pointer',color:'var(--text-muted)',
+                  fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',
+                  transition:'all 0.1s'
+                }}>✕</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="modal-body">
+            {type==='task'
+              ? <TaskDetail task={model.tasks[taskKey]}/>
+              : <GroupModal/>
+            }
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  /* ── Run Selector (dropdown) ────────────────── */
+  const RunIdBadge = ({ sid }) => {
+    const [copied, setCopied] = React.useState(false);
+    return (
+      <span
+        onClick={e => {
+          e.stopPropagation();
+          navigator.clipboard.writeText(sid).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
+          });
+        }}
+        title={copied ? 'Copiado!' : `Copiar ID para manage_benchmark.py: ${sid}`}
+        style={{
+          fontFamily:'JetBrains Mono,monospace',fontSize:10,fontWeight:700,
+          padding:'1px 6px',borderRadius:4,cursor:'pointer',
+          border:`1px solid ${copied?'#56d364':'var(--border-sep)'}`,
+          background:copied?'rgba(86,211,100,0.1)':'var(--bg)',
+          color:copied?'#56d364':'var(--text-dim)',
+          transition:'all 0.15s',letterSpacing:'0.05em',
+          userSelect:'none',flexShrink:0,
+        }}>
+        {copied ? '✓' : sid}
+      </span>
+    );
+  };
+
+  const RunSelector = ({ allRuns, runStatsMap, sel, onChange, compareTs, onCompareChange }) => {
+    const [open, setOpen] = React.useState(false);
+    const [hov, setHov]   = React.useState(null);
+    const ref = React.useRef(null);
+
+    useEffect(() => {
+      const handler = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+      document.addEventListener('mousedown', handler);
+      return () => document.removeEventListener('mousedown', handler);
+    }, []);
+
+    const allSel = sel.size === allRuns.length;
+    const label  = allSel ? `Todos (${allRuns.length})`
+                 : sel.size === 1 ? `Run ${fmtTs([...sel][0])}`
+                 : `${sel.size} runs`;
+
+    return (
+      <div ref={ref} style={{position:'relative'}}>
+        <button onClick={()=>setOpen(o=>!o)} style={{
+          display:'inline-flex',alignItems:'center',gap:7,
+          padding:'5px 11px',borderRadius:7,cursor:'pointer',
+          border:'1px solid var(--border)',background:'var(--bg-surface)',
+          color:'var(--text-muted)',fontFamily:'JetBrains Mono,monospace',fontSize:11,
+          transition:'all 0.15s',
+        }}>
+          <span style={{width:7,height:7,borderRadius:'50%',flexShrink:0,
+            background:allSel?'#56d364':'#388bfd',display:'inline-block'}}/>
+          {label}
+          <span style={{fontSize:9,opacity:.6,marginLeft:2}}>{open?'▴':'▾'}</span>
+        </button>
+
+        {open && (
+          <div style={{
+            position:'absolute',top:'calc(100% + 5px)',right:0,zIndex:200,
+            background:'var(--bg-surface)',border:'1px solid var(--border-sep)',
+            borderRadius:9,minWidth:240,
+            boxShadow:'0 8px 28px rgba(0,0,0,0.3)',
+            overflow:'hidden',
+            animation:'fadeIn 0.12s ease',
+          }}>
+            {/* Todos row */}
+            <div
+              onClick={()=>{ onChange(allSel?new Set([allRuns[0]]):new Set(allRuns)); }}
+              style={{display:'flex',alignItems:'center',gap:9,padding:'9px 13px',
+                cursor:'pointer',borderBottom:'1px solid var(--border)',
+                background:allSel?'rgba(56,139,253,0.07)':'transparent',
+                transition:'background 0.1s'}}
+              onMouseEnter={e=>e.currentTarget.style.background=allSel?'rgba(56,139,253,0.1)':'var(--bg-hover)'}
+              onMouseLeave={e=>e.currentTarget.style.background=allSel?'rgba(56,139,253,0.07)':'transparent'}
+            >
+              <span style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                border:`1.5px solid ${allSel?'#388bfd':'var(--border-sep)'}`,
+                background:allSel?'#388bfd':'transparent',
+                display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,color:'#fff'}}>
+                {allSel?'✓':''}
+              </span>
+              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:600,
+                color:allSel?'#79c0ff':'var(--text)'}}>Todos</span>
+              <span style={{marginLeft:'auto',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>
+                {allRuns.length} runs
+              </span>
+            </div>
+
+            {/* Individual runs */}
+            {allRuns.map((ts,i)=>{
+              const checked = sel.has(ts);
+              const isCompare = compareTs === ts;
+              const rs = runStatsMap?.[ts];
+              const notaColor_ = rs?.avgNota!=null ? notaColor(rs.avgNota) : '#f85149';
+              const notaLabel  = rs?.avgNota!=null ? rs.avgNota.toFixed(1) : '✗';
+              const sid = shortId(ts);
+              const toggle_run = () => {
+                const next=new Set(sel);
+                if(next.has(ts)){if(next.size>1)next.delete(ts);}else next.add(ts);
+                onChange(next);
+              };
+              return (
+                <div key={ts}
+                  onMouseEnter={()=>setHov(i)}
+                  onMouseLeave={()=>setHov(null)}
+                  style={{padding:'8px 13px',
+                    cursor:'pointer',background:hov===i?'var(--bg-hover)':'transparent',
+                    borderBottom:i<allRuns.length-1?'1px solid var(--border-subtle)':'none',
+                    transition:'background 0.1s'}}>
+                  {/* Linha 1: checkbox + label + botões */}
+                  <div style={{display:'flex',alignItems:'center',gap:9}}>
+                    <span onClick={toggle_run}
+                      style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                        border:`1.5px solid ${checked?'#388bfd':'var(--border-sep)'}`,
+                        background:checked?'#388bfd':'transparent',
+                        display:'flex',alignItems:'center',justifyContent:'center',
+                        fontSize:9,color:'#fff',cursor:'pointer'}}>
+                      {checked?'✓':''}
+                    </span>
+                    <span onClick={toggle_run}
+                      style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,
+                        color:checked?'var(--text)':'var(--text-muted)',flex:1}}>
+                      Run {fmtTs(ts)}
+                    </span>
+                    <RunIdBadge sid={sid}/>
+                    <button
+                      onClick={e=>{ e.stopPropagation(); onCompareChange(isCompare ? null : ts); }}
+                      style={{
+                        fontFamily:'JetBrains Mono,monospace',fontSize:9,fontWeight:600,
+                        padding:'2px 7px',borderRadius:4,cursor:'pointer',
+                        border:`1px solid ${isCompare ? '#f0883e' : 'var(--border-sep)'}`,
+                        background:isCompare?'rgba(240,136,62,0.12)':'var(--bg)',
+                        color:isCompare?'#f2a65a':'var(--text-muted)',
+                        whiteSpace:'nowrap',transition:'opacity 0.1s',
+                        visibility: hov===i || isCompare ? 'visible' : 'hidden',
+                        opacity: hov===i || isCompare ? 1 : 0,
+                      }}>
+                      Comparar
+                    </button>
+                    <button
+                      onClick={e=>{ e.stopPropagation(); onChange(new Set([ts])); }}
+                      style={{
+                        fontFamily:'JetBrains Mono,monospace',fontSize:9,fontWeight:600,
+                        padding:'2px 7px',borderRadius:4,cursor:'pointer',
+                        border:'1px solid var(--border-sep)',
+                        background:'var(--bg)',color:'var(--text-muted)',
+                        whiteSpace:'nowrap',transition:'opacity 0.1s',
+                        visibility: hov===i ? 'visible' : 'hidden',
+                        opacity: hov===i ? 1 : 0,
+                      }}>
+                      Somente
+                    </button>
+                  </div>
+                  {/* Linha 2: stats do run */}
+                  {rs && (
+                    <div style={{display:'flex',gap:10,marginTop:5,marginLeft:23,alignItems:'center'}}>
+                      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>
+                        <span style={{color:'var(--text-muted)',fontWeight:600}}>{fmtTokens(rs.totalTokens)}</span> tok
+                      </span>
+                      <span style={{color:'var(--border)',fontSize:9}}>·</span>
+                      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>
+                        <span style={{color:'var(--text-muted)',fontWeight:600}}>{fmtDuration(rs.totalMs)}</span>
+                      </span>
+                      <span style={{color:'var(--border)',fontSize:9}}>·</span>
+                      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,fontWeight:700,color:notaColor_}}>
+                        nota {notaLabel}
+                      </span>
+                      {rs.errorCount > 0 && (
+                        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'#f85149'}}>
+                          · {rs.errorCount} erro{rs.errorCount>1?'s':''}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  /* ── Model Selector (dropdown) ─────────────── */
+  const ModelSelector = ({ allModels, sel, onChange }) => {
+    // sel: null = all selected, Set<key> = partial selection
+    const [open, setOpen] = React.useState(false);
+    const [hov, setHov]   = React.useState(null);
+    const ref = React.useRef(null);
+
+    useEffect(() => {
+      const handler = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+      document.addEventListener('mousedown', handler);
+      return () => document.removeEventListener('mousedown', handler);
+    }, []);
+
+    const allSel     = !sel || sel.size >= allModels.length;
+    const isSelected = key => !sel || sel.has(key);
+
+    const label = allSel ? `Todos (${allModels.length})`
+                : sel.size === 1 ? (allModels.find(m=>m.key===[...sel][0])?.name ?? [...sel][0])
+                : `${sel.size} modelos`;
+
+    const toggle = key => {
+      if (allSel) {
+        const next = new Set(allModels.map(m=>m.key));
+        next.delete(key);
+        onChange(next);
+      } else {
+        const next = new Set(sel);
+        if (next.has(key)) { if (next.size > 1) next.delete(key); }
+        else { next.add(key); if (next.size >= allModels.length) { onChange(null); return; } }
+        onChange(next);
+      }
+    };
+
+    return (
+      <div ref={ref} style={{position:'relative'}}>
+        <button onClick={()=>setOpen(o=>!o)} style={{
+          display:'inline-flex',alignItems:'center',gap:7,
+          padding:'5px 11px',borderRadius:7,cursor:'pointer',
+          border:'1px solid var(--border)',background:'var(--bg-surface)',
+          color:'var(--text-muted)',fontFamily:'JetBrains Mono,monospace',fontSize:11,
+          transition:'all 0.15s',
+        }}>
+          <span style={{width:7,height:7,borderRadius:'50%',flexShrink:0,
+            background:allSel?'#56d364':'#f0883e',display:'inline-block'}}/>
+          {label}
+          <span style={{fontSize:9,opacity:.6,marginLeft:2}}>{open?'▴':'▾'}</span>
+        </button>
+
+        {open && (
+          <div style={{
+            position:'absolute',top:'calc(100% + 5px)',right:0,zIndex:200,
+            background:'var(--bg-surface)',border:'1px solid var(--border-sep)',
+            borderRadius:9,minWidth:260,
+            boxShadow:'0 8px 28px rgba(0,0,0,0.3)',
+            overflow:'hidden',
+            animation:'fadeIn 0.12s ease',
+          }}>
+            {/* Todos row */}
+            <div
+              onClick={()=>onChange(allSel?new Set([allModels[0].key]):null)}
+              style={{display:'flex',alignItems:'center',gap:9,padding:'9px 13px',
+                cursor:'pointer',borderBottom:'1px solid var(--border)',
+                background:allSel?'rgba(56,139,253,0.07)':'transparent',
+                transition:'background 0.1s'}}
+              onMouseEnter={e=>e.currentTarget.style.background=allSel?'rgba(56,139,253,0.1)':'var(--bg-hover)'}
+              onMouseLeave={e=>e.currentTarget.style.background=allSel?'rgba(56,139,253,0.07)':'transparent'}
+            >
+              <span style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                border:`1.5px solid ${allSel?'#388bfd':'var(--border-sep)'}`,
+                background:allSel?'#388bfd':'transparent',
+                display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,color:'#fff'}}>
+                {allSel?'✓':''}
+              </span>
+              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:600,
+                color:allSel?'#79c0ff':'var(--text)'}}>Todos</span>
+              <span style={{marginLeft:'auto',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>
+                {allModels.length} modelos
+              </span>
+            </div>
+
+            {/* Individual models */}
+            <div style={{maxHeight:240,overflowY:'auto'}}>
+              {allModels.map((m,i)=>{
+                const checked = isSelected(m.key);
+                return (
+                  <div key={m.key}
+                    onMouseEnter={()=>setHov(i)}
+                    onMouseLeave={()=>setHov(null)}
+                    style={{display:'flex',alignItems:'center',gap:9,padding:'8px 13px',
+                      cursor:'pointer',background:hov===i?'var(--bg-hover)':'transparent',
+                      borderBottom:i<allModels.length-1?'1px solid var(--border-subtle)':'none',
+                      transition:'background 0.1s'}}>
+                    <span
+                      onClick={()=>toggle(m.key)}
+                      style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                        border:`1.5px solid ${checked?'#388bfd':'var(--border-sep)'}`,
+                        background:checked?'#388bfd':'transparent',
+                        display:'flex',alignItems:'center',justifyContent:'center',
+                        fontSize:9,color:'#fff',cursor:'pointer'}}>
+                      {checked?'✓':''}
+                    </span>
+                    <span
+                      onClick={()=>toggle(m.key)}
+                      style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,
+                        color:checked?'var(--text)':'var(--text-muted)',flex:1,
+                        whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                      {m.name}
+                    </span>
+                    <button
+                      onClick={e=>{ e.stopPropagation(); onChange(new Set([m.key])); }}
+                      style={{
+                        fontFamily:'JetBrains Mono,monospace',fontSize:9,fontWeight:600,
+                        padding:'2px 7px',borderRadius:4,cursor:'pointer',
+                        border:'1px solid var(--border-sep)',
+                        background:'var(--bg)',color:'var(--text-muted)',
+                        whiteSpace:'nowrap',transition:'opacity 0.1s',
+                        visibility: hov===i ? 'visible' : 'hidden',
+                        opacity: hov===i ? 1 : 0,
+                      }}>
+                      Somente
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  /* ── App ─────────────────────────────────────── */
+  const App = () => {
+    const [raw,setRaw]           = useState(null);
+    const [loading,setLoading]   = useState(true);
+    const [refreshing,setRefreshing] = useState(false);
+    const [err,setErr]           = useState(null);
+    const [refreshKey,setRefreshKey] = useState(0);
+    const [expanded,setExpanded] = useState(() => {
+      try { const s=localStorage.getItem('bm-expanded'); return s?JSON.parse(s):{}; } catch { return {}; }
+    });
+    const [selRuns,setSelRuns]     = useState(null);
+    const [compareRunTs,setCompareRunTs] = useState(null);
+    const [selModels,setSelModels] = useState(null);
+    const [hovRow,setHovRow]       = useState(null);
+    const [modal,setModal]         = useState(null);
+    const [modelPrices,setModelPrices] = useState({});
+    const [visibleMetrics,setVisibleMetrics] = useState(() => {
+      try {
+        const saved = localStorage.getItem('bm-metrics');
+        if (saved) return JSON.parse(saved);
+      } catch {}
+      return { qsi: true, cost: true };
+    });
+
+    const isInitialRef  = React.useRef(true);
+    const knownRunsRef  = React.useRef(new Set());
+    const prevSelRunsRef = React.useRef(null);
+
+    useEffect(() => {
+      try { localStorage.setItem('bm-metrics', JSON.stringify(visibleMetrics)); } catch {}
+    }, [visibleMetrics]);
+
+    useEffect(() => {
+      try { localStorage.setItem('bm-expanded', JSON.stringify(expanded)); } catch {}
+    }, [expanded]);
+
+    // Reseta filtro de modelos quando o usuário troca de run (não na inicialização)
+    useEffect(() => {
+      if (!selRuns) return;
+      const prev = prevSelRunsRef.current;
+      prevSelRunsRef.current = selRuns;
+      if (prev === null) return; // primeira atribuição — não reseta
+      setSelModels(null);
+    }, [selRuns]);
+
+
+    useEffect(() => {
+      const isInitial = isInitialRef.current;
+      if (isInitial) setLoading(true); else setRefreshing(true);
+      setErr(null);
+      fetch(BENCHMARK_FILE + '?' + Date.now())
+        .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+        .then(data => {
+          // Atualiza GROUPS e TASK_NAMES a partir do meta embutido no JSON
+          const built = buildGroups(data);
+          if (built.length) {
+            GROUPS = built;
+            TASK_NAMES = Object.fromEntries(GROUPS.flatMap(g => Object.entries(g.taskNames||{})));
+          }
+          setRaw(data);
+          const all = new Set();
+          Object.values(data.modelos).forEach(m=>m.runs.forEach(r=>all.add(r.timestamp)));
+          const prevKnown  = knownRunsRef.current;
+          isInitialRef.current  = false;
+          knownRunsRef.current  = all;
+          const latestTs = [...all].sort().at(-1);
+          setSelRuns(prev => {
+            if (isInitial || !prev) return new Set([latestTs]);
+            // mantém seleção atual; se chegou nova run, adiciona ela
+            const next = new Set([...prev].filter(ts => all.has(ts)));
+            all.forEach(ts => { if (!prevKnown.has(ts)) next.add(ts); });
+            return next.size > 0 ? next : new Set([latestTs]);
+          });
+          setCompareRunTs(prev => (prev && all.has(prev) ? prev : null));
+          setLoading(false); setRefreshing(false);
+        })
+        .catch(e=>{ setErr(e.message); setLoading(false); setRefreshing(false); });
+    }, [refreshKey]);
+
+    useEffect(() => {
+      fetch('model_prices.json?' + Date.now())
+        .then(r => r.ok ? r.json() : {})
+        .then(setModelPrices)
+        .catch(() => {});
+    }, []);
+
+    const allRuns = useMemo(() => {
+      if (!raw) return [];
+      const s=new Set();
+      Object.values(raw.modelos).forEach(m=>m.runs.forEach(r=>s.add(r.timestamp)));
+      return [...s].sort();
+    }, [raw]);
+
+    const runStatsMap = useMemo(() => {
+      if (!raw) return {};
+      const m={};
+      allRuns.forEach(ts => { m[ts] = computeRunStats(raw, ts); });
+      return m;
+    }, [raw, allRuns]);
+
+    const models = useMemo(() => {
+      if (!raw||!selRuns?.size) return [];
+      return computeStats(raw.modelos, selRuns);
+    }, [raw, selRuns]);
+
+    const allModelItems = useMemo(() => models.map(m => ({ key: m.key, name: m.name })), [models]);
+
+    const filteredModels = useMemo(() => {
+      if (!selModels) return models;
+      return models.filter(m => selModels.has(m.key));
+    }, [models, selModels]);
+
+    const compareModelsByKey = useMemo(() => {
+      if (!raw || !compareRunTs) return {};
+      const compareModels = computeStats(raw.modelos, new Set([compareRunTs]));
+      return compareModels.reduce((acc, m) => {
+        acc[m.key] = m;
+        return acc;
+      }, {});
+    }, [raw, compareRunTs]);
+
+    const fmtDelta = (curr, cmp, digits = 1) => {
+      if (curr == null || cmp == null) return null;
+      const d = curr - cmp;
+      const sign = d > 0 ? '+' : '';
+      return `${sign}${d.toFixed(digits)}`;
+    };
+
+    const { maxTps, maxTok } = useMemo(() => computeMaxes(filteredModels), [filteredModels]);
+
+    const groupBest = useMemo(() => {
+      const r={};
+      GROUPS.forEach(g=>{
+        let best=null,bestVal=-1;
+        filteredModels.forEach((m,i)=>{
+          const ts=g.tasks.filter(t=>m.tasks[t]);
+          if(!ts.length) return;
+          const avg=ts.reduce((s,t)=>s+qsIndex(m.tasks[t].tps,null,m.tasks[t].notaGeral),0)/ts.length;
+          if(avg>bestVal){bestVal=avg;best=i;}
+        });
+        r[g.key]=best;
+      });
+      return r;
+    }, [filteredModels,maxTps]);
+
+    const taskBest = useMemo(() => {
+      const r={};
+      GROUPS.forEach(g=>g.tasks.forEach(tk=>{
+        let best=null,bestVal=-1;
+        filteredModels.forEach((m,i)=>{
+          if(!m.tasks[tk]) return;
+          const q=qsIndex(m.tasks[tk].tps,null,m.tasks[tk].notaGeral);
+          if(q>bestVal){bestVal=q;best=i;}
+        });
+        r[tk]=best;
+      }));
+      return r;
+    }, [filteredModels,maxTps]);
+
+    const taskNames = useMemo(() => {
+      const r={};
+      filteredModels.forEach(m=>Object.entries(m.tasks).forEach(([k,v])=>{r[k]=v.nome;}));
+      return r;
+    }, [filteredModels]);
+
+    const overallStats = useMemo(() => {
+      // Tarefas de diagnóstico não entram no score geral
+      const diagKeys = new Set(GROUPS.find(g=>g.diag)?.tasks||[]);
+      let bestIdx=null, bestVal=-1;
+      const stats = filteredModels.map((m,i) => {
+        const tasks=Object.entries(m.tasks).filter(([k])=>!diagKeys.has(k)).map(([,v])=>v);
+        if (!tasks.length) return null;
+        const avgTps   = tasks.reduce((s,t)=>s+t.tps,0)/tasks.length;
+        const totalSec = tasks.reduce((s,t)=>s+t.tps,0);
+        const notaTs   = tasks.filter(t=>t.notaGeral!=null);
+        const avgNota  = notaTs.length ? notaTs.reduce((s,t)=>s+t.notaGeral,0)/notaTs.length : null;
+        const avgQsi   = tasks.reduce((s,t)=>s+qsIndex(t.tps,null,t.notaGeral),0)/tasks.length;
+        const sumTok   = tasks.reduce((s,t)=>s+(t.tokens||0),0);
+        const tks      = totalSec > 0 ? sumTok / totalSec : 0;
+        if (avgQsi>bestVal){bestVal=avgQsi;bestIdx=i;}
+        return {avgTps,avgNota,avgQsi,sumTok,tks,sumTps:totalSec};
+      });
+      const maxAvgTps=Math.max(...stats.filter(Boolean).map(s=>s.avgTps),0);
+      const maxSumTok=Math.max(...stats.filter(Boolean).map(s=>s.sumTok),0);
+      const maxSumTps=Math.max(...stats.filter(Boolean).map(s=>s.sumTps),0);
+      return {stats,bestIdx,maxAvgTps,maxSumTok,maxSumTps};
+    }, [filteredModels]);
+
+    const toggle = k => setExpanded(p=>({...p,[k]:!p[k]}));
+    const openModal = useCallback((type,modelIdx,groupKey,taskKey=null) => {
+      setModal({type,modelIdx,groupKey,taskKey});
+    },[]);
+
+    // Tarefas que têm dado em pelo menos um modelo na run atual
+    const activeTasks = useMemo(() => {
+      const s = new Set();
+      models.forEach(m => Object.keys(m.tasks||{}).forEach(tk => s.add(tk)));
+      return s;
+    }, [models]);
+
+    // Derivado do raw para garantir re-render quando meta mudar (GROUPS module-level não é reativo)
+    const activeGroups = useMemo(() => raw ? buildGroups(raw) : [], [raw]);
+
+    const cols = activeGroups.flatMap(g =>
+      expanded[g.key] && g.tasks.length > 0
+        ? g.tasks.map((tk,ti)=>({type:'task',g,tk,last:ti===g.tasks.length-1}))
+        : [{type:'group',g}]
+    );
+
+    if (loading) return (
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',
+        color:'var(--text-muted)',fontFamily:'JetBrains Mono,monospace',fontSize:13,gap:10}}>
+        <span style={{animation:'spin 1s linear infinite',display:'inline-block'}}>◌</span>
+        Carregando benchmark…
+      </div>
+    );
+    if (err) return <div style={{padding:40,color:'#f85149',fontFamily:'JetBrains Mono,monospace'}}>Erro: {err}</div>;
+
+    const stickyBg = mi => mi===hovRow?'var(--bg-hover)':'var(--bg)';
+
+    return (
+      <div style={{padding:'24px 20px',minHeight:'100vh'}}>
+
+        {/* Top bar */}
+        {/* Título */}
+        <div style={{marginBottom:14}}>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <h1 style={{fontFamily:'JetBrains Mono,monospace',fontSize:17,fontWeight:700,color:'var(--text)',letterSpacing:'-0.3px'}}>
+              OpenClaw Agent Benchmark
+            </h1>
+            <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,color:'var(--text-dim)',
+              background:'var(--bg-surface)',border:'1px solid var(--border)',padding:'2px 8px',borderRadius:20}}>
+              lzbot
+            </span>
+          </div>
+          <p style={{fontSize:11,color:'var(--text-muted)',marginTop:4}}>
+            {filteredModels.length} modelo{filteredModels.length!==1?'s':''} · {Object.keys(taskNames).length} tarefas ·&nbsp;
+            <span style={{color:'#388bfd'}}>{selRuns?.size}/{allRuns.length} run{allRuns.length!==1?'s':''}</span>
+            <span style={{color:'var(--text-dim)',marginLeft:8}}>· clique numa célula para ver detalhes</span>
+          </p>
+        </div>
+
+        {/* Seletores mobile (visíveis só em mobile, no fluxo normal) */}
+        <div className="mobile-selectors" style={{display:'none',gap:8,flexWrap:'wrap',alignItems:'center',marginBottom:12}}>
+          {allModelItems.length > 0 && <ModelSelector allModels={allModelItems} sel={selModels} onChange={setSelModels}/>}
+          {selRuns && (
+            <RunSelector
+              allRuns={allRuns}
+              runStatsMap={runStatsMap}
+              sel={selRuns}
+              onChange={setSelRuns}
+              compareTs={compareRunTs}
+              onCompareChange={setCompareRunTs}
+            />
+          )}
+          <button
+            onClick={()=>setRefreshKey(k=>k+1)}
+            title="Atualizar dados"
+            style={{
+              display:'inline-flex',alignItems:'center',justifyContent:'center',
+              width:30,height:30,borderRadius:6,
+              border:'1px solid var(--border)',background:'var(--bg-surface)',
+              cursor:'pointer',fontSize:15,color:'var(--text-muted)',
+              transition:'all 0.15s',
+              animation: refreshing ? 'spin 0.8s linear infinite' : 'none',
+            }}>↺</button>
+        </div>
+
+        {/* Toolbar sticky: seletores + legenda */}
+        <div className="sticky-toolbar">
+          <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'nowrap'}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {allModelItems.length > 0 && <ModelSelector allModels={allModelItems} sel={selModels} onChange={setSelModels}/>}
+              {selRuns && (
+                <RunSelector
+                  allRuns={allRuns}
+                  runStatsMap={runStatsMap}
+                  sel={selRuns}
+                  onChange={setSelRuns}
+                  compareTs={compareRunTs}
+                  onCompareChange={setCompareRunTs}
+                />
+              )}
+              <button
+                onClick={()=>setRefreshKey(k=>k+1)}
+                title="Atualizar dados"
+                style={{
+                  display:'inline-flex',alignItems:'center',justifyContent:'center',
+                  width:30,height:30,borderRadius:6,
+                  border:'1px solid var(--border)',background:'var(--bg-surface)',
+                  cursor:'pointer',fontSize:15,color:'var(--text-muted)',
+                  transition:'all 0.15s',
+                  animation: refreshing ? 'spin 0.8s linear infinite' : 'none',
+                }}>↺</button>
+            </div>
+            <div className="legend-row" style={{display:'none'}}>
+            <span><span style={{color:'#56d364',fontWeight:700}}>▲</span> Melhor</span>
+            <span style={{width:1,height:12,background:'var(--border)',display:'inline-block'}}/>
+            <span><span style={{color:'#56d364'}}>●</span> ≥8</span>
+            <span><span style={{color:'#e3b341'}}>●</span> 6–8</span>
+            <span><span style={{color:'#f85149'}}>●</span> &lt;6</span>
+            <span style={{width:1,height:12,background:'var(--border)',display:'inline-block'}}/>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {[
+                { key:'qsi', label:'Nota' },
+                { key:'nota', label:'Tokens' },
+                { key:'tps', label:'Tempo' },
+                { key:'cost', label:'Custo' },
+              ].map(m => (
+                <div key={m.key} style={{display:'flex',alignItems:'center',gap:6,cursor:'pointer',userSelect:'none'}}
+                  onClick={()=>setVisibleMetrics(p=>({...p,[m.key]:!p[m.key]}))}>
+                  <span style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                    border:`1.5px solid ${visibleMetrics[m.key]?'#388bfd':'var(--border-sep)'}`,
+                    background:visibleMetrics[m.key]?'#388bfd':'transparent',
+                    display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,color:'#fff'}}>
+                    {visibleMetrics[m.key]?'✓':''}
+                  </span>
+                  <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:10,
+                    color:visibleMetrics[m.key]?'var(--text)':'var(--text-muted)'}}>{m.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        </div>
+
+        {/* Group pills + legenda */}
+        <div className="group-pills" style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap',alignItems:'center'}}>
+          {activeGroups.filter(g=>g.tasks.some(tk=>activeTasks.has(tk))).map(g=>{
+            const exp=expanded[g.key];
+            const [r,gg,b]=hexRgb(g.color);
+            return (
+              <button key={g.key} onClick={()=>toggle(g.key)} style={{
+                background:exp?`rgba(${r},${gg},${b},0.1)`:'transparent',
+                border:`1px solid ${exp?g.color:'var(--border)'}`,
+                borderRadius:6,padding:'4px 10px',cursor:'pointer',
+                color:exp?g.color:'var(--text-muted)',
+                fontSize:11,fontWeight:500,display:'flex',alignItems:'center',gap:5,transition:'all 0.15s',
+              }}>
+                <span style={{width:7,height:7,borderRadius:1,background:exp?g.color:'var(--border-sep)',display:'inline-block',flexShrink:0}}/>
+                {g.label} <span style={{color:'var(--text-dim)',fontSize:9}}>({g.tasks.length})</span>
+                <span style={{fontSize:9,marginLeft:1}}>{exp?'▴':'▸'}</span>
+              </button>
+            );
+          })}
+          <div className="legend-row" style={{marginLeft:'auto',display:'flex',gap:10,fontSize:10,color:'var(--text-muted)',alignItems:'center'}}>
+            <span><span style={{color:'#56d364',fontWeight:700}}>▲</span> Melhor</span>
+            <span style={{width:1,height:12,background:'var(--border)',display:'inline-block'}}/>
+            <span><span style={{color:'#56d364'}}>●</span> ≥8</span>
+            <span><span style={{color:'#e3b341'}}>●</span> 6–8</span>
+            <span><span style={{color:'#f85149'}}>●</span> &lt;6</span>
+            <span style={{width:1,height:12,background:'var(--border)',display:'inline-block'}}/>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {[
+                { key:'qsi', label:'Nota' },
+                { key:'nota', label:'Tokens' },
+                { key:'tps', label:'Tempo' },
+                { key:'cost', label:'Custo' },
+              ].map(m => (
+                <div key={m.key} style={{display:'flex',alignItems:'center',gap:6,cursor:'pointer',userSelect:'none'}}
+                  onClick={()=>setVisibleMetrics(p=>({...p,[m.key]:!p[m.key]}))}>
+                  <span style={{width:14,height:14,borderRadius:3,flexShrink:0,
+                    border:`1.5px solid ${visibleMetrics[m.key]?'#388bfd':'var(--border-sep)'}`,
+                    background:visibleMetrics[m.key]?'#388bfd':'transparent',
+                    display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,color:'#fff'}}>
+                    {visibleMetrics[m.key]?'✓':''}
+                  </span>
+                  <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:10,
+                    color:visibleMetrics[m.key]?'var(--text)':'var(--text-muted)'}}>{m.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th rowSpan={2} className="sticky s1 sep-right"
+                  style={{background:'var(--bg)',padding:'11px 16px',textAlign:'left',
+                    fontSize:10,fontWeight:600,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.06em',
+                    borderBottom:'1px solid var(--border)'}}>Modelo</th>
+                <th rowSpan={2} className="sticky s3 sep-right"
+                  style={{background:'var(--bg)',padding:'11px 8px',textAlign:'center',
+                    fontSize:10,fontWeight:600,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.06em',
+                    borderBottom:'1px solid var(--border)'}}>Provider</th>
+
+                <th rowSpan={2}
+                  style={{background:'var(--bg)',padding:'11px 8px',textAlign:'center',
+                    fontSize:10,fontWeight:600,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.06em',
+                    borderBottom:'2px solid var(--border)',borderRight:'2px solid var(--border-sep)',
+                    minWidth:80,maxWidth:180,verticalAlign:'middle'}}>Score</th>
+
+                {activeGroups.map(g=>{
+                  const exp=expanded[g.key];
+                  const hasData = g.tasks.some(tk => activeTasks.has(tk));
+                  return (
+                    <th key={g.key} colSpan={exp&&hasData?g.tasks.length:1}
+                      onClick={hasData?()=>toggle(g.key):undefined}
+                      style={{padding:exp&&hasData?'10px 14px':'8px 6px',background:g.bg,
+                        borderBottom:'1px solid var(--border)',borderRight:'2px solid var(--border-sep)',
+                        cursor:hasData?'pointer':'default',userSelect:'none',textAlign:'center',
+                        color:hasData?g.color:'var(--text-dim)',fontSize:12,fontWeight:700,letterSpacing:'.03em',
+                        maxWidth:exp&&hasData?'none':(g.diag?56:130),overflow:'hidden',opacity:hasData?1:0.45}}>
+                      <span className="group-btn" style={{justifyContent:'center'}}>
+                        {g.icon}
+                        {(!g.diag || exp) && <>&nbsp;{g.label}</>}
+                        {hasData && <span style={{
+                          display:'inline-flex',alignItems:'center',justifyContent:'center',
+                          width:16,height:16,borderRadius:4,flexShrink:0,
+                          border:`1.5px solid ${g.color}`,
+                          color:g.color,fontSize:11,fontWeight:700,lineHeight:1,
+                          marginLeft:2,
+                        }}>
+                          {exp?'−':'+'}
+                        </span>}
+                      </span>
+                    </th>
+                  );
+                })}
+              </tr>
+              <tr>
+                {cols.map(col=>{
+                  const borderR=col.type==='group'||col.last?'2px solid var(--border-sep)':'1px solid var(--border-subtle)';
+                  if (col.type==='group') {
+                    const runCount = col.g.tasks.filter(tk => activeTasks.has(tk)).length;
+                    return (
+                    <th key={col.g.key}
+                      style={{padding:'7px 14px',background:col.g.bg,
+                        borderRight:borderR,borderBottom:'2px solid var(--border)',
+                        textAlign:'center',fontSize:10,color:'var(--text-dim)',
+                        fontStyle:'italic',fontWeight:400,minWidth:col.g.diag?56:130}}>
+                      {col.g.diag
+                        ? `${runCount}/${col.g.tasks.length} checks`
+                        : runCount > 0 ? `${runCount}/${col.g.tasks.length} tarefas · média` : `sem dados`}
+                    </th>
+                    );
+                  }
+                  return (
+                    <th key={`${col.g.key}-${col.tk}`} className="col-fade"
+                      style={{padding:'7px 10px',background:col.g.bg,
+                        borderRight:borderR,borderBottom:'2px solid var(--border)',
+                        textAlign:'center',fontSize:10,color:'var(--text-muted)',
+                        fontWeight:500,minWidth:120,maxWidth:140,
+                        whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                      {TASK_NAMES[col.tk]||taskNames[col.tk]||col.tk}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredModels.map((model,mi)=>(
+                <tr key={model.key} onMouseEnter={()=>setHovRow(mi)} onMouseLeave={()=>setHovRow(null)}>
+                  <td className="sticky s1 sep-right"
+                    style={{background:stickyBg(mi),padding:'13px 16px',
+                      borderBottom:'1px solid var(--border)',verticalAlign:'middle',transition:'background 0.1s'}}>
+                    <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,
+                      color:'var(--text)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}
+                      title={model.name}>{model.name}</div>
+                  </td>
+                  <td className="sticky s3 sep-right"
+                    style={{background:stickyBg(mi),padding:'13px 8px',textAlign:'center',
+                      borderBottom:'1px solid var(--border)',verticalAlign:'middle',transition:'background 0.1s'}}>
+                    <span className="badge" style={{color:'#79c0ff',background:'rgba(121,192,255,0.1)'}}>{model.quant}</span>
+                  </td>
+
+                  {/* Overall cell */}
+                  {(() => {
+                    const s=overallStats.stats[mi];
+                    const cmpModel = compareModelsByKey[model.key];
+                    const cmpOverall = cmpModel ? (() => {
+                      const cmpTasks = Object.values(cmpModel.tasks);
+                      if (!cmpTasks.length) return null;
+                      const avgTps    = cmpTasks.reduce((acc,t)=>acc+t.tps,0)/cmpTasks.length;
+                      const totalSec  = cmpTasks.reduce((acc,t)=>acc+t.tps,0);
+                      const notaTasks = cmpTasks.filter(t=>t.notaGeral!=null);
+                      const avgNota   = notaTasks.length ? notaTasks.reduce((acc,t)=>acc+t.notaGeral,0)/notaTasks.length : null;
+                      const sumTok    = cmpTasks.reduce((acc,t)=>acc+(t.tokens||0),0);
+                      const tks       = totalSec > 0 ? sumTok / totalSec : 0;
+                      return { avgTps, avgNota, sumTok, tks, sumTps: totalSec };
+                    })() : null;
+                    if (!s) return (
+                      <td style={{padding:'11px 14px',borderRight:'2px solid var(--border-sep)',
+                        borderBottom:'1px solid var(--border)',textAlign:'center',
+                        color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',fontSize:12}}>—</td>
+                    );
+                    const nc  = s.avgNota!=null ? notaColor(s.avgNota) : 'var(--text-dim)';
+                    const tc  = tokColor(s.sumTok, overallStats.maxSumTok);
+                    const isBest = overallStats.bestIdx===mi;
+                    return (
+                      <td style={{background:hovRow===mi?'var(--bg-hover)':'transparent',
+                        padding:'9px 8px',borderRight:'2px solid var(--border-sep)',
+                        borderBottom:'1px solid var(--border)',
+                        verticalAlign:'top',transition:'background 0.1s',
+                        position:'relative',minWidth:80,maxWidth:180}}>
+                        {isBest&&visibleMetrics.qsi&&<span style={{position:'absolute',top:5,right:7,fontSize:9,color:'var(--text-muted)',opacity:.85}}>▲</span>}
+                        {/* Posição QSI → exibe nota */}
+                        {visibleMetrics.qsi && (
+                          <div style={{marginBottom:5,padding:'4px 6px',borderRadius:4,background:'rgba(255,255,255,0.04)'}}>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:8,fontWeight:600,color:'var(--text-dim)',letterSpacing:'.05em',textTransform:'uppercase'}}>nota</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:14,fontWeight:700,color:nc,lineHeight:1}}>{s.avgNota!=null?s.avgNota.toFixed(1):'—'}</span>
+                            </div>
+                            <Bar val={s.avgNota||0} max={10} color={nc} h={2}/>
+                            {cmpOverall && (
+                              <div style={{marginTop:4,paddingTop:4,borderTop:'1px solid var(--border-subtle)',display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span style={{color:cmpOverall.avgNota!=null?notaColor(cmpOverall.avgNota):'var(--text-dim)'}}>{cmpOverall.avgNota!=null?cmpOverall.avgNota.toFixed(1):'—'}</span>
+                                <span style={{color:(s.avgNota||0) >= (cmpOverall.avgNota||0) ? '#56d364' : '#f85149'}}>{fmtDelta(s.avgNota, cmpOverall.avgNota)}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {/* Posição nota → exibe tokens (menos = melhor) */}
+                        {visibleMetrics.nota && (
+                          <>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:tc}}>{s.sumTok?s.sumTok.toLocaleString('pt-BR'):'—'}</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>tok total</span>
+                            </div>
+                            <Bar val={s.sumTok} max={overallStats.maxSumTok||1} color={tc} h={2}/>
+                            {cmpOverall && (
+                              <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span style={{color:tokColor(cmpOverall.sumTok, overallStats.maxSumTok)}}>{fmtTokens(cmpOverall.sumTok)}</span>
+                                <span style={{color:(s.sumTok||0) <= (cmpOverall.sumTok||0) ? '#56d364' : '#f85149'}}>{fmtDelta(s.sumTok, cmpOverall.sumTok, 0)}</span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {visibleMetrics.tps && (
+                          <>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:4}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:'var(--text)'}}>{fmtMmSs(s.sumTps)}</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>total</span>
+                            </div>
+                            <Bar val={s.sumTps} max={overallStats.maxSumTps||1} color='var(--text-muted)' h={2}/>
+                            {cmpOverall && (
+                              <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span>{fmtMmSs(cmpOverall.sumTps)}</span>
+                                <span style={{color:(s.sumTps||0)<=(cmpOverall.sumTps||0)?'#56d364':'#f85149'}}>{fmtDelta(s.sumTps, cmpOverall.sumTps)}</span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {visibleMetrics.cost && (() => {
+                          const mpr = modelPrices[modelKeyToOr(model.key)];
+                          const tasks = Object.values(model.tasks);
+                          const totalCost = tasks.reduce((acc,t)=>acc+(computeCost(t.inputTok,t.outputTok,mpr)||0),0);
+                          const costStr = fmtCost(totalCost);
+                          if (!costStr) return null;
+                          return (
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:4}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:'#e3b341'}}>{costStr}</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>USD</span>
+                            </div>
+                          );
+                        })()}
+                      </td>
+                    );
+                  })()}
+
+                  {cols.map(col=>{
+                    const [r,gg,b]=hexRgb(col.g.color);
+                    const bg=hovRow===mi
+                      ?(col.type==='group'?`rgba(${r},${gg},${b},0.1)`:'var(--bg-hover)')
+                      :(col.type==='group'?col.g.bg:'transparent');
+                    const borderR=col.type==='group'||col.last?'2px solid var(--border-sep)':'1px solid var(--border-subtle)';
+
+                    if (col.type==='group') {
+                      const vt=col.g.tasks.filter(t=>model.tasks[t]);
+                      const cmpModel = compareModelsByKey[model.key];
+                      const cmpTasks = cmpModel ? col.g.tasks.filter(t=>cmpModel.tasks[t]) : [];
+                      const isBest=groupBest[col.g.key]===mi;
+                      if (!vt.length) return (
+                        <td key={col.g.key} style={{background:bg,padding:'13px 14px',
+                          borderRight:borderR,borderBottom:'1px solid var(--border)',
+                          textAlign:'center',color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',
+                          fontSize:12,transition:'background 0.1s'}}>—</td>
+                      );
+                      // Célula de grupo diagnóstico: mostra contagem de checks ✓/✗
+                      if (col.g.diag) {
+                        const ok  = vt.filter(t=>!model.tasks[t].hasError).length;
+                        const tot = vt.length;
+                        const allOk = ok===tot;
+                        const ckColor = allOk?'#56d364':ok>0?'#e3b341':'#f85149';
+                        return (
+                          <td key={col.g.key} className="data-cell"
+                            onClick={()=>openModal('group',mi,col.g.key)}
+                            style={{background:bg,padding:'11px 14px',
+                              borderRight:borderR,borderBottom:'1px solid var(--border)',
+                              verticalAlign:'middle',textAlign:'center',
+                              transition:'background 0.1s',cursor:'pointer',minWidth:56}}>
+                            <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:15,fontWeight:700,color:ckColor}}>
+                              {ok}/{tot}
+                            </span>
+                            <div style={{fontSize:9,color:'var(--text-dim)',marginTop:2}}>checks ✓</div>
+                          </td>
+                        );
+                      }
+                      const notaTs   = vt.filter(t=>model.tasks[t].notaGeral!=null);
+                      const avgNota  = notaTs.length ? notaTs.reduce((s,t)=>s+model.tasks[t].notaGeral,0)/notaTs.length : null;
+                      const avgQsi   = vt.reduce((s,t)=>s+qsIndex(model.tasks[t].tps,null,model.tasks[t].notaGeral),0)/vt.length;
+                      const sumTps   = vt.reduce((s,t)=>s+model.tasks[t].tps,0);
+                      const sumTok   = vt.reduce((s,t)=>s+(model.tasks[t].tokens||0),0);
+                      const cmpAvgNota = cmpTasks.length ? cmpTasks.filter(t=>cmpModel.tasks[t].notaGeral!=null).reduce((s,t)=>s+cmpModel.tasks[t].notaGeral,0)/cmpTasks.length : null;
+                      const cmpAvgQsi  = cmpTasks.length ? cmpTasks.reduce((s,t)=>s+qsIndex(cmpModel.tasks[t].tps,null,cmpModel.tasks[t].notaGeral),0)/cmpTasks.length : null;
+                      const cmpSumTps  = cmpTasks.length ? cmpTasks.reduce((s,t)=>s+cmpModel.tasks[t].tps,0) : null;
+                      const cmpSumTok  = cmpTasks.length ? cmpTasks.reduce((s,t)=>s+(cmpModel.tasks[t].tokens||0),0) : null;
+                      const maxSumTps  = Math.max(...filteredModels.map(m=>{const ts=col.g.tasks.filter(t=>m.tasks[t]);return ts.reduce((s,t)=>s+m.tasks[t].tps,0);}),1);
+                      const maxSumTok  = Math.max(...filteredModels.map(m=>{const ts=col.g.tasks.filter(t=>m.tasks[t]);return ts.reduce((s,t)=>s+(m.tasks[t].tokens||0),0);}),1);
+                      const nc=notaColor(avgNota); const qc=qsiColor(avgQsi); const tc=tokColor(sumTok,maxSumTok);
+                      return (
+                        <td key={col.g.key} className="data-cell"
+                          onClick={()=>openModal('group',mi,col.g.key)}
+                          style={{background:bg,padding:'11px 14px',
+                            borderRight:borderR,borderBottom:'1px solid var(--border)',
+                            verticalAlign:'top',transition:'background 0.1s',position:'relative',minWidth:col.g.diag?56:130}}>
+                          {isBest&&visibleMetrics.qsi&&<span style={{position:'absolute',top:5,right:7,fontSize:9,color:col.g.color,opacity:.85}}>▲</span>}
+                          {visibleMetrics.qsi && (
+                            <div style={{marginBottom:6,padding:'5px 7px',borderRadius:5,background:`rgba(${r},${gg},${b},0.08)`}}>
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,fontWeight:600,color:'var(--text-dim)',letterSpacing:'.05em',textTransform:'uppercase'}}>nota</span>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:16,fontWeight:700,color:nc,lineHeight:1}}>{avgNota!=null?avgNota.toFixed(1):'—'}</span>
+                              </div>
+                              <Bar val={avgNota||0} max={10} color={nc} h={3}/>
+                              {cmpAvgNota!=null && (
+                                <div style={{marginTop:4,paddingTop:4,borderTop:'1px solid var(--border-subtle)',display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                  <span style={{color:notaColor(cmpAvgNota)}}>{cmpAvgNota.toFixed(1)}</span>
+                                  <span style={{color:avgNota >= cmpAvgNota ? '#56d364' : '#f85149'}}>{fmtDelta(avgNota, cmpAvgNota)}</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                          {visibleMetrics.nota && (
+                            <>
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:13,fontWeight:600,color:tc}}>{fmtTokens(sumTok)}</span>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>tok total</span>
+                              </div>
+                              <Bar val={sumTok} max={maxSumTok||1} color={tc} h={2}/>
+                              {cmpSumTok!=null && (
+                                <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                  <span style={{color:tokColor(cmpSumTok,maxSumTok)}}>{fmtTokens(cmpSumTok)}</span>
+                                  <span style={{color:sumTok<=cmpSumTok?'#56d364':'#f85149'}}>{fmtDelta(sumTok,cmpSumTok,0)}</span>
+                                </div>
+                              )}
+                            </>
+                          )}
+                          {visibleMetrics.tps && (
+                            <>
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:5}}>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:13,fontWeight:600,color:'var(--text)'}}>{fmtMmSs(sumTps)}</span>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>total</span>
+                              </div>
+                              <Bar val={sumTps} max={maxSumTps||1} color={col.g.color} h={2}/>
+                              {cmpSumTps!=null && (
+                                <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                  <span>{fmtMmSs(cmpSumTps)}</span>
+                                  <span style={{color:sumTps<=cmpSumTps?'#56d364':'#f85149'}}>{fmtDelta(sumTps,cmpSumTps)}</span>
+                                </div>
+                              )}
+                            </>
+                          )}
+                          {visibleMetrics.cost && (() => {
+                            const mpr = modelPrices[modelKeyToOr(model.key)];
+                            const grpCost = vt.reduce((acc,t)=>acc+(computeCost(model.tasks[t].inputTok,model.tasks[t].outputTok,mpr)||0),0);
+                            const cs = fmtCost(grpCost);
+                            if (!cs) return null;
+                            return (
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:4}}>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:'#e3b341'}}>{cs}</span>
+                                <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>USD</span>
+                              </div>
+                            );
+                          })()}
+                        </td>
+                      );
+                    }
+
+                    /* Task cell */
+                    const td=model.tasks[col.tk];
+                    const cmpTd = compareModelsByKey[model.key]?.tasks[col.tk] || null;
+                    const isBest=taskBest[col.tk]===mi;
+                    if (!td) return (
+                      <td key={`${col.g.key}-${col.tk}`} className="col-fade"
+                        style={{background:bg,padding:'11px 10px',
+                          borderRight:borderR,borderBottom:'1px solid var(--border)',
+                          textAlign:'center',color:'var(--text-dim)',fontFamily:'JetBrains Mono,monospace',
+                          fontSize:12,transition:'background 0.1s'}}>—</td>
+                    );
+
+                    // Célula diagnóstico: só ✓ ou ✗, sem score — pass/fail por ausência de erro
+                    if (col.g.diag) {
+                      const passed  = !td.hasError;
+                      const ckColor = passed ? '#56d364' : '#f85149';
+                      const ck      = passed ? '✓' : '✗';
+                      return (
+                        <td key={`${col.g.key}-${col.tk}`} className="col-fade data-cell"
+                          onClick={()=>openModal('task',mi,col.g.key,col.tk)}
+                          style={{background:bg,padding:'9px 10px',
+                            borderRight:borderR,borderBottom:'1px solid var(--border)',
+                            textAlign:'center',verticalAlign:'middle',
+                            transition:'background 0.1s',cursor:'pointer',minWidth:80}}>
+                          <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:18,fontWeight:700,color:ckColor}}>{ck}</span>
+                          {td.tempo>0 && <div style={{fontSize:9,color:'var(--text-dim)',marginTop:1}}>{fmtMmSs(td.tempo)}</div>}
+                        </td>
+                      );
+                    }
+
+                    const mt=maxTps[col.tk]||1;
+                    const q =qsIndex(td.tps,null,td.notaGeral);
+                    const nc=td.notaGeral!=null?notaColor(td.notaGeral):'var(--text-dim)';
+                    const qc=qsiColor(q);
+                    return (
+                      <td key={`${col.g.key}-${col.tk}`} className="col-fade data-cell"
+                        onClick={()=>openModal('task',mi,col.g.key,col.tk)}
+                        style={{background:bg,padding:'9px 10px',
+                          borderRight:borderR,borderBottom:'1px solid var(--border)',
+                          verticalAlign:'top',transition:'background 0.1s',position:'relative',minWidth:120}}>
+                        {isBest&&visibleMetrics.qsi&&<span style={{position:'absolute',top:4,right:5,fontSize:9,color:col.g.color,opacity:.85}}>▲</span>}
+                        {visibleMetrics.qsi && (
+                          <div style={{marginBottom:5,padding:'4px 6px',borderRadius:4,background:`rgba(${r},${gg},${b},0.08)`}}>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:8,fontWeight:600,color:'var(--text-dim)',letterSpacing:'.05em',textTransform:'uppercase'}}>nota</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:14,fontWeight:700,color:nc,lineHeight:1}}>{td.notaGeral!=null?td.notaGeral.toFixed(1):'—'}</span>
+                            </div>
+                            <Bar val={td.notaGeral||0} max={10} color={nc} h={2}/>
+                            {cmpTd && (
+                              <div style={{marginTop:4,paddingTop:4,borderTop:'1px solid var(--border-subtle)',display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span style={{color:cmpTd.notaGeral!=null?notaColor(cmpTd.notaGeral):'var(--text-dim)'}}>{cmpTd.notaGeral!=null?cmpTd.notaGeral.toFixed(1):'—'}</span>
+                                <span style={{color:(td.notaGeral||0)>=(cmpTd.notaGeral||0)?'#56d364':'#f85149'}}>{fmtDelta(td.notaGeral,cmpTd.notaGeral)}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {visibleMetrics.nota && (
+                          <>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:tokColor(td.tokens,maxTok[col.tk])}}>
+                                {td.tokens?td.tokens.toLocaleString('pt-BR'):'—'}
+                              </span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>tokens</span>
+                            </div>
+                            <Bar val={td.tokens||0} max={maxTok[col.tk]||1} color={tokColor(td.tokens,maxTok[col.tk])} h={2}/>
+                            {cmpTd && (
+                              <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span style={{color:tokColor(cmpTd.tokens,maxTok[col.tk])}}>{cmpTd.tokens?fmtTokens(cmpTd.tokens):'—'}</span>
+                                <span style={{color:(td.tokens||0)<=(cmpTd.tokens||0)?'#56d364':'#f85149'}}>{fmtDelta(td.tokens,cmpTd.tokens,0)}</span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {visibleMetrics.tps && (
+                          <>
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:4}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:12,fontWeight:600,color:'var(--text)'}}>{fmtMmSs(td.tps)}</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>mm:ss</span>
+                            </div>
+                            <Bar val={td.tps} max={mt} color={col.g.color} h={2}/>
+                            {cmpTd && (
+                              <div style={{marginTop:3,display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-muted)'}}>
+                                <span>{fmtMmSs(cmpTd.tps)}</span>
+                                <span>{fmtDelta(td.tps, cmpTd.tps)}</span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {visibleMetrics.cost && (() => {
+                          const mpr = modelPrices[modelKeyToOr(model.key)];
+                          const taskCost = computeCost(td.inputTok, td.outputTok, mpr);
+                          const cs = fmtCost(taskCost);
+                          if (!cs) return null;
+                          return (
+                            <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginTop:4}}>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:11,fontWeight:600,color:'#e3b341'}}>{cs}</span>
+                              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:9,color:'var(--text-dim)'}}>USD</span>
+                            </div>
+                          );
+                        })()}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Footer */}
+        <div style={{marginTop:14,display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:8,fontSize:10,color:'var(--text-dim)'}}>
+          <span>Clique nas células para ver critérios, artefatos e justificativas · ▲ melhor Score por coluna</span>
+          <span>Score = nota/10 × 100 · Nota = avaliação LLM 0–10 · Tempo = duração da task</span>
+        </div>
+
+        {/* Modal */}
+        {modal && (
+          <Modal data={modal} models={models} visibleMetrics={visibleMetrics} modelPrices={modelPrices} onClose={()=>setModal(null)} onNavigate={setModal}/>
+        )}
+      </div>
+    );
+  };
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
+<script type="application/json" id="__om_srcmap">{"gen":"af0a5f32","entries":[{"id":"af0a5f32:0","tag":"html","openStart":16,"attrEnd":52,"openEnd":53,"closeEnd":47508,"textRuns":[[53,54],[6944,6945],[47500,47501]],"parentId":null,"childIds":["af0a5f32:1","af0a5f32:5"]},{"id":"af0a5f32:1","tag":"head","openStart":54,"attrEnd":59,"openEnd":60,"closeEnd":6944,"textRuns":[[60,63],[85,88],[158,161],[189,192],[346,349],[536,539],[734,737],[924,927],[6936,6937]],"parentId":"af0a5f32:0","childIds":["af0a5f32:2","af0a5f32:3","af0a5f32:4"]},{"id":"af0a5f32:2","tag":"meta","openStart":63,"attrEnd":84,"openEnd":85,"closeEnd":85,"textRuns":[],"parentId":"af0a5f32:1","childIds":[]},{"id":"af0a5f32:3","tag":"meta","openStart":88,"attrEnd":157,"openEnd":158,"closeEnd":158,"textRuns":[],"parentId":"af0a5f32:1","childIds":[]},{"id":"af0a5f32:4","tag":"link","openStart":192,"attrEnd":345,"openEnd":346,"closeEnd":346,"textRuns":[],"parentId":"af0a5f32:1","childIds":[]},{"id":"af0a5f32:5","tag":"body","openStart":6945,"attrEnd":6950,"openEnd":6951,"closeEnd":47500,"textRuns":[[6951,6952],[6973,6974],[47492,47493]],"parentId":"af0a5f32:0","childIds":["af0a5f32:6"]},{"id":"af0a5f32:6","tag":"div","openStart":6952,"attrEnd":6966,"openEnd":6967,"closeEnd":6973,"textRuns":[],"parentId":"af0a5f32:5","childIds":[]}]}</script>

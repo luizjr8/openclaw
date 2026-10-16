@@ -1,0 +1,414 @@
+models:
+  - openrouter/owl-alpha
+  - openrouter/stepfun/step-3.7-flash
+  - openrouter/minimax/minimax-m2.5
+  - openrouter/deepseek/deepseek-v4-flash
+  - openrouter/deepseek/deepseek-v4-pro
+  - openrouter/xiaomi/mimo-v2.5
+  - openrouter/qwen/qwen3.6-35b-a3b
+  - openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+
+benchmark:
+  gateway_port: 16888
+  docker_container: lzbot
+  max_task_retries: 3
+  retry_sleep_s: 60
+  yield_retry_delay_s: 30
+
+agent:
+  id: main
+  thinking: low
+  timeout: 600
+
+analysis:
+  model: gemini-3.1-pro-preview
+
+figma:
+  - id: fundacao_blog
+    name: "Fundação Internal Blog Page"
+    url: "https://www.figma.com/design/GPJXwsoswMb7DJZL0z5ESU/Funda%C3%A7%C3%A3o?node-id=237-4930&t=6uQo9UwqSyk68aK8-0"
+
+trello:
+  - id: board_teste
+    name: "Board Teste"
+    url: "https://trello.com/b/Axa1qyir/quadro-teste"
+
+groups:
+  - key: diagnostico
+    label: "Diagnóstico"
+    icon: "⚙"
+    color: "#8b949e"
+    diag: true
+  - key: agente
+    label: "Agente"
+    icon: "◎"
+    color: "#79c0ff"
+  - key: dev
+    label: "Dev Técnico"
+    icon: "◈"
+    color: "#56d364"
+  - key: mkt
+    label: "Marketing"
+    icon: "✦"
+    color: "#ff9f7f"
+
+tasks:
+
+  # Categoria 0: Diagnóstico
+
+  - id: diag_versoes
+    group: diagnostico
+    category: "Diagnóstico"
+    timeout: 60
+    name: "Versões do ambiente"
+    prompt: |
+      Quero saber qual a versão do Openclaw, do Python e do Node.js que você está usando.
+      Mostre os comandos que rodou e os resultados exatos de cada um.
+    evaluation: |
+      Avalie se o agente:
+      (1) usou ferramentas para executar comandos shell,
+      (2) obteve a versão do OpenClaw,
+      (3) obteve a versão do Node.js,
+      (4) obteve a versão do Python,
+      (5) apresentou os resultados claramente.
+
+  - id: diag_modelo
+    group: diagnostico
+    category: "Diagnóstico"
+    timeout: 30
+    name: "Identificação do Modelo"
+    prompt: |
+      Qual o modelo de linguagem que você está usando agora.
+    evaluation: |
+      Avalie se o agente:
+      (1) respondeu de forma direta e objetiva sem texto extra,
+      (2) o nome contém identificadores reconhecíveis de um modelo LLM (ex: nome do provider,
+      versão, tamanho),
+      (3) não recusou ou desviou da pergunta.
+
+  - id: diag_websearch
+    group: diagnostico
+    category: "Diagnóstico"
+    timeout: 90
+    name: "Web Search"
+    prompt: |
+      Use a ferramenta de busca na web para encontrar a cotação atual do dólar americano
+      em reais brasileiros hoje. Mostre o valor encontrado e a fonte.
+    evaluation: |
+      Avalie se o agente:
+      (1) usou ativamente uma ferramenta de busca na web,
+      (2) encontrou um valor numérico plausível para o dólar em reais (entre R$4 e R$8),
+      (3) citou a fonte ou origem do dado.
+
+  - id: diag_stealthbrowser
+    group: diagnostico
+    category: "Diagnóstico"
+    timeout: 90
+    name: "Stealth Web"
+    prompt: |
+      Acessa o site PixelScan e faz o teste de bot-check
+      Traz o resultado e também um print da pagina
+    evaluation: |
+      Avalie se o agente:
+      (1) usou o browser para acessar o site PixelScan (pixelscan.net),
+      (2) executou ou aguardou o resultado do teste de bot-check na página,
+      (3) Passou no teste
+      (4) reportou os resultados do teste (ex: fingerprint, detecções, score),
+      (5) tirou um screenshot da página e o apresentou ou salvou.
+
+  # Categoria 1: Agente
+
+  - id: agent_trello
+    group: agente
+    category: "Agente"
+    name: "Trello"
+    prompt: |
+      Use a skill do Trello para
+      limpar todos os cards que estão lá e
+      criar um card de teste no board
+      https://trello.com/b/Axa1qyir/quadro-teste
+      Confirme se o card foi criado com sucesso e informe o ID ou link do card.
+    evaluation: |
+      Avalie se o agente:
+      (1) usou a skill do Trello,
+      (2) o card foi criado com sucesso
+      (confirmação explícita),
+      (3) informou o ID ou link do card criado.
+
+  - id: agent_voos
+    group: agente
+    category: "Agente"
+    name: "Skill Busca de Voos"
+    pre_commands:
+      - "pip uninstall fli -y 2>/dev/null || true"
+      - "rm -f ~/.local/bin/fli 2>/dev/null || true"
+    prompt: |
+      Use a skill de busca de voos para buscar voos de JPA (João Pessoa) para CGH (Congonhas)
+      em Setembro, indo num domingo e voltando num sábado. Mostre pelo melhores resultados com companhia aérea, horário e preço.
+      Se a skill não estiver disponível ou falhar, explique o erro exato.
+    evaluation: |
+      Avalie se o agente: (1) encontrou e usou a skill de busca de voos,
+      (2) retornou pelo menos 1 voo com companhia aérea, (3) retornou horário,
+      (4) retornou preço, (5) não reportou erro de skill indisponível.
+
+  - id: web_casaco
+    group: agente
+    category: "Agente"
+    name: "Busca de Produto com Browser"
+    prompt: |
+      Quero comprar um casaco verde para minha filha, tamanho P.
+      Usa o browser para navegar na LOLJA, que ela adora,
+      busca por moletom verde, escolhe uma opção e me traz:
+      nome do produto, preço, link direto para o produto e a URL da imagem do casaco.
+    evaluation: |
+      Avalie se o agente:
+      (1) usou o browser para navegar em uma loja real online,
+      (2) encontrou um produto que é um casaco ou jaqueta verde,
+      (3) trouxe o link do produto,
+      (4) trouxe o preço,
+      (5) trouxe imagem ou URL da imagem
+
+  - id: web_compras
+    group: agente
+    category: "Agente"
+    name: "Comparação de Produtos Multi-loja"
+    prompt: |
+      Preciso comprar um ar-condicionado do tipo cassete 24.000 nova com orçamento de até R$9.000.
+      Usa o browser e pesquisa em pelo menos 3 lojas diferentes.
+      Compara pelo menos 3 modelos de ar-condicinado cassete, de teto, dentro
+      do orçamento e me diz qual tem melhor custo-benefício, com justificativa.
+      Para cada ar-condicionado: modelo, potencia, consumo inmetro, preço, loja e link.
+    evaluation: |
+      Avalie se o agente:
+      (1) acessou pelo menos 2 lojas diferentes via browser,
+      (2) encontrou pelo menos 3 ar-condicionados dentro do orçamento,
+      (3) forneceu modelo, preço, loja e link para cada ar-condicionado encontrado,
+      (4) eles eram do tipo cassete, vendido no brasil e com potencia de 24.000 BTUs ou mais
+      (4) incluiu potencia e consumo inmetro,
+      (5) fez recomendação
+      justificada com critérios técnicos.
+
+  - id: web_noticias
+    group: agente
+    category: "Agente"
+    name: "Pesquisa e Síntese de Notícias"
+    prompt: |
+      Pesquisa na web e me traz um resumo das 3 principais notícias sobre inteligência
+      artificial no Brasil nos últimos 30 dias. Para cada notícia: título, resumo em
+      2 a 3 frases sobre o que aconteceu, e o link da fonte original.
+      Prioriza fontes confiáveis (G1, Folha, UOL Tech, Exame, Estadão, Infomoney).
+    evaluation: |
+      Avalie se o agente: (1) pesquisou ativamente na web, (2) encontrou 3 notícias
+      distintas, (3) as notícias são sobre IA no Brasil, (4) cada notícia tem título,
+      (5) cada notícia tem resumo de 2-3 frases, (6) cada notícia tem link da fonte,
+      (7) as fontes são confiáveis e relevantes.
+
+      Avalie também a qualidade editorial dos resumos:
+      (8) os resumos respondem "o que aconteceu" de forma objetiva, sem parafrasear o título,
+      (9) as notícias são distintas em assunto (não 3 variações do mesmo tema),
+      (10) os resumos são escritos em português claro, sem termos técnicos desnecessários.
+
+  # Categoria 2: Desenvolvimento Técnico
+
+  - id: dev_figma
+    group: dev
+    category: "Desenvolvimento Técnico"
+    name: "Figma para HTML Pixel Perfect"
+    pre_commands:
+      - "pip uninstall fli -y 2>/dev/null || true"
+    context_files:
+      - design.md
+    prompt: |
+      No teu workspace existe um arquivo chamado design.md com a especificação completa
+      de uma página web: paleta de cores, tipografia, textos reais e hierarquia de layout.
+
+      Com base exclusivamente nessa spec (sem acessar nenhum link externo):
+      1. Lê o arquivo design.md do workspace
+      2. Reproduz a página como um arquivo HTML standalone (com CSS em tag <style>),
+         sendo o mais fiel possível às cores, tipografia, espaçamentos e layout descritos
+      3. Salva o arquivo como {works_dir}/pagina.html
+      4. Usa o browser para abrir o arquivo, tira um screenshot e salva como
+         {works_dir}/pagina.png
+      5. Reporta os caminhos dos arquivos gerados e as principais decisões de implementação
+    evaluation: |
+      O agente entrega arquivos em disco e reporta os caminhos — use a lista de Artefatos
+      Gerados como evidência de criação de arquivos, não apenas o texto da resposta.
+
+      Avalie se o agente:
+      (1) leu o arquivo design.md (evidência: tool call de leitura na
+      sessão),
+      (2) usou as cores corretas da paleta (#FFF7EC, #1E1E1E, #33452A, #DEE58D)
+      — verifique na sessão se o HTML foi escrito com essas cores,
+      (3) usou as fontes
+      corretas (Space Grotesk e Poppins),
+      (4) gerou HTML válido com estrutura semântica,
+      (5) salvou em {works_dir}/pagina.html — aceite como evidência: arquivo pagina.html
+      na lista de artefatos ou tool call de escrita na sessão,
+      (6) tirou screenshot e
+      salvou como PNG — aceite pagina.png nos artefatos ou tool call de screenshot,
+      (7) o HTML parece fiel ao design descrito com base nos tool calls da sessão.
+
+  - id: dev_docker
+    group: dev
+    category: "Desenvolvimento Técnico"
+    name: "Auditoria Docker"
+    prompt: |
+      Analisa o ambiente Docker local e identifica tudo que pode ser removido com segurança.
+      Execute os comandos necessários e produza um relatório com:
+      1. Imagens não utilizadas por nenhum container (dangling e sem tag em uso) — nome, tag, tamanho
+      2. Containers parados há mais de 7 dias — nome, imagem, data de parada
+      3. Volumes sem nenhum container associado — nome e tamanho estimado
+      4. Networks criadas pelo usuário sem containers conectados
+      5. Espaço total estimado que seria liberado pelo `docker system prune`
+      Ao final, lista os comandos exatos para limpar cada categoria, do mais seguro para o mais agressivo.
+      Não execute nenhum comando de remoção — apenas analise e recomende.
+    evaluation: |
+      Avalie se o agente: (1) executou comandos reais via shell para inspecionar o Docker
+      (docker images, docker ps, docker volume ls, docker network ls),
+      (2) identificou imagens não utilizadas com tamanho,
+      (3) listou containers parados com data,
+      (4) verificou volumes órfãos,
+      (5) verificou networks sem uso,
+      (6) calculou ou estimou o espaço total recuperável,
+      (7) forneceu comandos de limpeza concretos e corretos,
+      (8) não executou nenhum comando destrutivo (rm, prune, rmi, volume rm).
+
+  - id: dev_codigo
+    group: dev
+    category: "Desenvolvimento Técnico"
+    name: "Debug e Correção de Código Python"
+    prompt: |
+      Analisa o código Python abaixo, identifica todos os bugs, corrige-os e
+      escreve 2 testes unitários com pytest para cada função corrigida:
+
+      ```python
+      def buscar_produto(produtos, nome):
+          """Busca produto pelo nome na lista e retorna o índice."""
+          for i in range(1, len(produtos)):
+              if produtos[i].lower() == nome.lower():
+                  return i
+          return -1
+
+      def calcular_desconto(preco, percentual):
+          """Aplica desconto percentual ao preço e retorna o valor final."""
+          if percentual < 0 or percentual > 100:
+              raise ValueError("Percentual deve ser entre 0 e 100")
+          desconto = preco * percentual / 10
+          return preco - desconto
+      ```
+
+      Para cada bug encontrado: explica o problema, por que está errado e a correção.
+      Apresenta o código completo corrigido com os testes pytest ao final.
+    evaluation: |
+      Avalie se o agente: (1) identificou o bug em buscar_produto (range começa em 1, pula índice 0),
+      (2) identificou o bug em calcular_desconto (divisão por 10 em vez de 100),
+      (3) corrigiu ambos os bugs corretamente, (4) escreveu 2 testes pytest para buscar_produto
+      cobrindo sucesso e caso não encontrado, (5) escreveu 2 testes pytest para calcular_desconto
+      cobrindo caso normal e ValueError, (6) a explicação dos bugs está clara e tecnicamente correta.
+
+  # Categoria 3: Marketing & Conteúdo
+
+  - id: mkt_jeronimo
+    group: mkt
+    category: "Marketing & Conteúdo"
+    name: "Campanha Jurídica + Trello"
+    prompt: |
+      Você está ajudando o escritório Jeronimo Advogados com marketing de conteúdo.
+      Execute as seguintes etapas em ordem:
+      1. Pesquisa na web sobre "direito do consumidor com bancos" — foco em: cobranças
+         indevidas, práticas abusivas e direitos do consumidor brasileiro.
+      2. Cria 2 posts para redes sociais (um para Instagram e um para LinkedIn) com
+         tom profissional e educativo, baseados na pesquisa.
+      3. Valida explicitamente se os textos estão adequados para um escritório de advocacia
+         (tom, ética, linguagem acessível).
+      4. Para cada post, cria uma arte em HTML+CSS com design profissional (fundo escuro,
+         tipografia clara). Salva os HTMLs em {works_dir}/jeronimo_instagram.html e
+         {works_dir}/jeronimo_linkedin.html.
+      5. Cria um card no Trello (https://trello.com/b/Axa1qyir/quadro-teste) com:
+         título "Campanha: Direito do Consumidor com Bancos", descrição com os 2 posts
+         e os nomes dos arquivos HTML gerados.
+    evaluation: |
+      O agente entrega arquivos em disco e reporta os caminhos — use a lista de Artefatos
+      Gerados como evidência de criação de arquivos, não apenas o texto da resposta.
+
+      Avalie se o agente: (1) pesquisou o tema na web com fontes relevantes (evidência:
+      tool calls de busca na sessão), (2) criou post para Instagram adequado (evidência:
+      conteúdo na resposta ou na sessão), (3) criou post para LinkedIn adequado, (4) validou
+      explicitamente os textos em algum momento (resposta ou sessão), (5) gerou HTML para
+      Instagram — aceite como evidência: arquivo jeronimo_instagram.html na lista de artefatos
+      ou tool call de escrita desse arquivo na sessão, (6) gerou HTML para LinkedIn — mesma
+      lógica, (7) os HTMLs foram salvos nos caminhos corretos dentro de works_dir,
+      (8) criou card no Trello (evidência: tool call trello ou confirmação na resposta/sessão).
+
+      Avalie também a qualidade do conteúdo gerado:
+      (9) os posts têm tom profissional e adequado para um escritório de advocacia (sem promessas de resultado, sem linguagem sensacionalista),
+      (10) os textos educam o leitor com informação útil sobre direito do consumidor,
+      (11) o post de Instagram é conciso e visualmente adequado para o formato (curto, impactante),
+      (12) o post de LinkedIn tem profundidade e argumentação adequada para o canal.
+
+  - id: mkt_linkedin
+    group: mkt
+    category: "Marketing & Conteúdo"
+    name: "Post LinkedIn com Arte Visual"
+    prompt: |
+      Pesquisa as principais tendências de automação com inteligência artificial para
+      pequenas empresas em 2026. Com base na pesquisa:
+      1. Escreve um post para LinkedIn (máximo 1.300 caracteres) com: pelo menos 3
+         insights de valor, call-to-action claro e 5 hashtags relevantes.
+      2. Cria uma arte em HTML+CSS para o post (simula formato quadrado 1080x1080px,
+         fundo com gradiente moderno, texto destacado, visual profissional de rede social).
+      3. Salva o HTML como {works_dir}/linkedin_post.html.
+      4. Usa o browser para abrir o arquivo e tira screenshot salvo como
+         {works_dir}/linkedin_post.png.
+      Reporta o texto completo do post e os caminhos dos arquivos.
+    evaluation: |
+      O agente entrega arquivos em disco e reporta os caminhos — use a lista de Artefatos
+      Gerados como evidência de criação de arquivos, não apenas o texto da resposta.
+
+      Avalie se o agente: (1) pesquisou tendências de IA para PMEs (evidência: tool calls
+      de busca na sessão), (2) escreveu post com até 1.300 caracteres — verifique o texto
+      na resposta ou na sessão, (3) incluiu pelo menos 3 insights, (4) incluiu call-to-action,
+      (5) incluiu 5 hashtags, (6) criou HTML com design 1080x1080 — aceite linkedin_post.html
+      nos artefatos ou tool call de escrita na sessão, (7) salvou o HTML corretamente,
+      (8) tirou screenshot PNG — aceite linkedin_post.png nos artefatos ou tool call de screenshot.
+
+      Avalie também a qualidade do conteúdo gerado:
+      (9) os insights são concretos e acionáveis (não genéricos como "IA vai transformar tudo"),
+      (10) o tom é adequado ao LinkedIn — profissional mas acessível, sem jargão excessivo,
+      (11) o call-to-action é específico e relevante ao tema,
+      (12) o design HTML tem hierarquia visual clara e seria compartilhável em redes sociais.
+
+  - id: mkt_calendario
+    group: mkt
+    category: "Marketing & Conteúdo"
+    name: "Calendário de Conteúdo 4 Semanas"
+    prompt: |
+      Crie um calendário de conteúdo digital para as próximas 4 semanas para a empresa
+      fictícia "TechSimples" (tecnologia acessível para pequenas empresas).
+      O calendário deve conter:
+      - Tema central de cada semana
+      - 3 posts por semana (segunda, quarta e sexta-feira)
+      - Para cada post: plataforma (Instagram, LinkedIn ou YouTube), formato
+        (texto, carrossel, reels ou artigo) e ideia resumida do conteúdo (1-2 frases)
+      Gere primeiro uma página HTML visualmente organizada com tabela por semana,
+      cores distintas por plataforma e visual de editorial board, salvando em
+      {works_dir}/calendario.html. Em seguida, exporte essa página para PDF e salve em
+      {works_dir}/calendario.pdf. Na resposta, apresente o conteúdo gerado em formato de tabela.
+    evaluation: |
+      O agente entrega arquivos em disco e reporta os caminhos — use a lista de Artefatos
+      Gerados como evidência de criação de arquivos, não apenas o texto da resposta.
+
+      Avalie se o agente: (1) criou calendário para 4 semanas completas (verifique na
+      resposta ou na sessão), (2) definiu tema central para cada semana, (3) criou
+      exatamente 3 posts por semana (12 total), (4) definiu plataforma para cada post,
+      (5) definiu formato para cada post, (6) escreveu ideia de conteúdo para cada post,
+      (7) gerou HTML com tabela visualmente organizada — aceite calendario.html nos
+      artefatos ou tool call de escrita na sessão, (8) salvou em {works_dir}/calendario.html,
+      (9) exportou PDF — aceite calendario.pdf nos artefatos ou tool call de geração de PDF,
+      (10) apresentou o conteúdo em formato de tabela na resposta ou na sessão.
+
+      Avalie também a qualidade do conteúdo gerado:
+      (11) os temas semanais têm progressão lógica e coerência estratégica entre si,
+      (12) as ideias de conteúdo são específicas para "TechSimples" (tecnologia acessível para PMEs) e não genéricas,
+      (11) há variedade de formatos e plataformas ao longo das semanas (não repete o mesmo padrão toda semana),
+      (12) as ideias de conteúdo são originais e acionáveis — um editor conseguiria executar sem precisar re-inventar.

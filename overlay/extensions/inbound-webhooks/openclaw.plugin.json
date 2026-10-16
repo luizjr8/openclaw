@@ -1,0 +1,21 @@
+{
+  "id": "webhook-inbound",
+  "name": "Inbound Webhooks",
+  "description": "Servidor HTTP para receber webhooks com roteamento dinâmico",
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": ["webhook_manage"]
+  },
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "port": { "type": "number" },
+      "secret": { "type": "string" },
+      "prefix": { "type": "string" },
+      "publicUrl": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

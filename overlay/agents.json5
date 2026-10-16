@@ -1,0 +1,100 @@
+// agents.json5 — entradas de agente do boilerplate lzbot.
+//
+// Estrutura do 2026.9.1: `agents.list` (array com campo "id") virou `agents.entries`,
+// um OBJETO chaveado pelo id — a chave É o id, então o campo "id" some de dentro de
+// cada agente. O `$include` do openclaw.json continua valendo:
+//   "entries": { "$include": ["./agents.json5"] }
+// e este arquivo passou de array para objeto.
+//
+// A outra mudança que atinge este arquivo: `memorySearch` (por agente) → `memory.search`
+// (mesmo shape, um nível a mais). Ver o bloco `memory.search` do openclaw.json para a
+// política global (provider local, vetor in-process) que estas entradas herdam.
+{
+	// Nome da instancia — troque pelo nome do bot (o mesmo de workspace/IDENTITY.md).
+	// O marcador `default: true` foi APOSENTADO no 2026.9.1: o loader o descarta e
+	// materializa o dono de cada superfície sozinho (warning no `config validate`).
+	// Quem resolve isso agora é o openclaw.json — `agents.ownership: "explicit"` +
+	// `agents.defaults.systemAgent.agentId` + `talk.agentId`, todos apontando pra cá.
+	"main": {
+		"name": "Assistente",
+		// Workspace EXPLÍCITO na raiz, e não `workspace/main`.
+		//
+		// Até a 2026.7.1 quem marcava `default: true` herdava a raiz do
+		// `agents.defaults.workspace`; todo o resto ganhava `<raiz>/<id>`. O
+		// `default: true` foi aposentado na 2026.9.1 e o loader passa a descartá-lo,
+		// então sem esta linha o main resolve para `/app/workspace/main`, que não
+		// existe — e o gateway não falha: ele PULA o agente ("Skipping agent
+		// \"main\": workspace does not exist"). O bot sobe sem o agente principal,
+		// calado. Medido no ensaio da Fase I.
+		"workspace": "${LZBOT_WORKSPACE_ROOT}",
+		// Anthropic nativo no assistente principal. Sem override, o modo "auto"
+		// prefere claude-cli quando o binário está instalado, mesmo com setup-token.
+		"models": {
+			"anthropic/*": {
+				"agentRuntime": {
+					"id": "openclaw"
+				}
+			}
+		},
+	},
+	"coder": {
+		"name": "ReMax",
+		"agentDir": "coder",
+		"workspace": "${LZBOT_WORKSPACE_ROOT}/coder",
+		"identity": {
+			"name": "ReMax",
+			"theme": "Um programador exímio! Signo de Áres, um pouco arisco, mas extremamente leal e compentente. Coder Hacker!! Um grande amigo.",
+			"emoji": "🌚"
+		},
+		// Modelo dedicado via env (default no .env.example: anthropic/claude-opus-5).
+		// ATENÇÃO: var ausente derruba o gateway no load — CODER_AGENT_MODEL deve estar sempre no env.
+		"model": {
+			"primary": "${CODER_AGENT_MODEL}",
+			"fallbacks": [
+				"${FALLBACK_AGENT_MODEL}"
+			]
+		},
+		// ReMax usa o harness do Claude Code; os demais agentes Anthropic ficam no runtime nativo.
+		"models": {
+			"anthropic/*": {
+				"agentRuntime": {
+					"id": "claude-cli"
+				}
+			}
+		},
+		"thinkingDefault": "medium",
+		// Memória compartilhada (leitura): coder indexa a memória inteira do main via extraPaths.
+		// Read-only por convenção — escrita só na própria memória do coder (ver coder/AGENTS.md).
+		// Diretório é escaneado recursivamente por .md (inclui ref/, topics, feedbacks e day-logs).
+		//
+		// Só `extraPaths` aqui: provider/store/sources vêm do bloco global `memory.search`.
+		// Não voltar com `provider: "openai"` aqui (existia até 2026.7.1 como isolamento de
+		// índice): cada agente já tem índice builtin próprio, e o override só amarraria a
+		// memória do coder a uma cota externa.
+		"memory": {
+			"search": {
+				"extraPaths": [
+					"${LZBOT_WORKSPACE_ROOT}/MEMORY.md",
+					"${LZBOT_WORKSPACE_ROOT}/memory"
+				]
+			}
+		}
+	},
+	"concierge": {
+		"name": "Concierge",
+		"agentDir": "concierge",
+		// Agente de baixo uso (catch-all de fornecedores no whatsapp).
+		// Memória simples: sem memory-search (não indexa, não embeda).
+		// `rememberAcrossConversations: false` é obrigatório junto do enabled:false —
+		// o global é true e sem este override o doctor acusa estado inconsistente
+		// ("remember across conversations effectively enabled, but memory search is
+		// disabled"). Também é o certo por segurança: relay de fornecedor não deve
+		// puxar contexto de outra conversa.
+		"memory": {
+			"search": {
+				"enabled": false,
+				"rememberAcrossConversations": false
+			}
+		}
+	}
+}

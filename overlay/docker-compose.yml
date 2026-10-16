@@ -1,0 +1,54 @@
+services:
+  lzbot:
+    build: .
+    container_name: lzbot
+    restart: unless-stopped
+    environment:
+      - TZ=America/Recife
+    env_file:
+      - .env
+    ports:
+      - 16888:16888
+    tty: true
+    volumes:
+      - ./app:/app
+      # - ./application_default_credentials.json:/app/application_default_credentials.json:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: ["openclaw", "gateway", "run", "--verbose"]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lzbot.rule=Host(`bot.localhost`)
+      - traefik.http.routers.lzbot.entrypoints=web
+      - traefik.http.services.lzbot.loadbalancer.server.port=16889
+
+  router:
+    image: traefik:3
+    hostname: cloud-router
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.docker.watch=true"
+
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.transport.respondingtimeouts.readtimeout=600s"
+      - "--entrypoints.web.transport.respondingtimeouts.writetimeout=600s"
+
+      - "--serversTransport.insecureSkipVerify=true"
+
+      - "--log.level=INFO"
+      - "--accesslog=true"
+      - "--metrics.prometheus=true"
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - cloud=true
+      - traefik.enable=true
+      # MON
+      - traefik.http.routers.dashboard.rule=Host(`mon.localhost`)
+      - traefik.http.routers.dashboard.entrypoints=web
+      - traefik.http.routers.dashboard.service=api@internal

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Read(*)",
+      "Bash(*)",
+      "Bash(cp -r /home/lzbot/.claude/. /app/.claude/)",
+      "Bash(cp /home/lzbot/.claude.json /app/.claude.json)",
+      "Bash(rm -rf /home/lzbot/.claude /home/lzbot/.claude.json)",
+      "Bash(ln -s /app/.claude /home/lzbot/.claude)",
+      "Bash(ln -s /app/.claude.json /home/lzbot/.claude.json)",
+      "Read(//home/lzbot/.claude/**)"
+    ]
+  }
+}

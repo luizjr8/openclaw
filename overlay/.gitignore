@@ -1,0 +1,98 @@
+# Dev Files
+**/*
+!.gitignore
+!Dockerfile
+!entrypoint.sh
+!docker-compose.yml
+!run_dev.sh
+!run_local.sh
+!.env.example
+!.claude/
+!.claude/**
+!AGENTS.md
+!.dockerignore
+
+# Generic config
+!openclaw.json
+!openclaw.json.md
+!agents.json5
+!agents-*.json5
+!VERSION
+
+# Migrations (see migrations/README.md)
+!migrations/
+!migrations/**
+
+# Scripts
+!scripts/
+!scripts/**
+
+# Cron
+!cron/
+!cron/jobs.json
+
+# Workspace
+!workspace/
+workspace/*
+
+# Core MDs
+!workspace/*.example.md
+!workspace/BOOTSTRAP.md
+
+# Rules (templates only)
+!workspace/rules/
+workspace/rules/*
+!workspace/rules/*.example.md
+
+# Coder agent (persona files only — never instance memory/tools/heartbeat)
+!workspace/coder/
+workspace/coder/*
+!workspace/coder/AGENTS.md
+!workspace/coder/SOUL.md
+!workspace/coder/IDENTITY.md
+!workspace/coder/*.example.md
+
+# Extensions
+!extensions/
+!extensions/**
+
+# Skills
+!skills/
+!skills/**
+
+# Bench
+!bench/
+!bench/benchmark.py
+!bench/config.yml
+!bench/manage_benchmark.py
+!bench/requirements.txt
+!bench/fetch_prices.py
+!bench/tasks
+!bench/tasks/**
+!bench/results/
+!bench/results/index.html
+!bench/results/model_prices.json
+
+# Models: nenhum GGUF versionado — o plugin @openclaw/llama-cpp-provider baixa o que precisa
+# para dentro do state dir (ver bloco do embedding local no entrypoint.sh)
+!assets/
+!assets/**
+assets/models/*.gguf
+# Manter a estrutura do diretório no git; o COPY assets/ do Dockerfile depende dela existir
+!assets/models/.gitkeep
+
+# --- Global Ignores ---
+*.pyc
+__pycache__/
+node_modules/
+.npm-local/
+.cache/
+*.db
+*.db-journal
+*.db-wal
+*.DS_Store
+.env/
+
+# Ignored Skills
+skills/lzbot-git/
+skills/**/_meta.json

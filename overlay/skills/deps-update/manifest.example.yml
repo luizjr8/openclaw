@@ -1,0 +1,74 @@
+# deps-update — manifesto de dependências da instância.
+#
+# Copie para $LZBOT_WORKSPACE_ROOT/skills/deps-update/manifest.yml e edite.
+# O manifesto é o que `npm outdated`/`pip list --outdated` não sabem: quem é
+# dono de estado mutável, o que verifica se subiu de pé, e o que é crítico.
+#
+# Campos:
+#   name       (obrigatório) rótulo curto usado na CLI e na saída do check
+#   kind       (obrigatório) npm-global | pip | apt | binary
+#   package    nome real no gerenciador (default: name)
+#   state      globs de estado mutável que o pacote é dono; salvos antes do apply.
+#              Arquivo é copiado; diretório é só registrado no backup (cache de
+#              browser tem GB e se "restaura" por re-download, não por cp)
+#   changelog  string = atalho para `path`. Mapa aceita as duas formas:
+#                path: CHANGELOG.md do pacote. npm-global: relativo ao prefix
+#                      global do npm (também aceita absoluto). A versão nova é
+#                      buscada no tarball, não no arquivo instalado
+#                atom: feed https://github.com/<org>/<repo>/releases.atom, para
+#                      pacote que não shipa CHANGELOG. Fallback automático: sem
+#                      `path` (ou com path que não existe) o atom é tentado, e se
+#                      `atom` não estiver escrito ele é derivado do repository do
+#                      registry. Nunca api.github.com — ela dá 504
+#   verify     comando de sanidade pós-install; rc != 0 dispara rollback
+#   critical   entra na janela de segurança fora de cadência
+#   status     omita no caso normal. `orphan-candidate` = o veredito é remover,
+#              não atualizar (alguém bundla a própria cópia). Sai num bloco
+#              próprio do check em vez de voltar toda semana como falso pendente,
+#              e o apply recusa rodar até o campo sair
+#   notes      o que o número da versão não conta (migração, custo, pegadinha)
+
+# Pacote sem CHANGELOG nenhum: só release notes no GitHub. Dono de estado grande
+# (os browsers), que o backup registra sem copiar.
+- name: playwright
+  kind: npm-global
+  package: playwright
+  state:
+    - "~/.cache/ms-playwright"
+  changelog:
+    atom: "https://github.com/microsoft/playwright/releases.atom"
+  verify: "playwright --version"
+  critical: true
+  notes: "subir a lib sem baixar o browser da versão nova deixa o Chromium sem par"
+
+- name: corepack
+  kind: npm-global
+  package: corepack
+  changelog:
+    path: "node_modules/corepack/CHANGELOG.md"
+  verify: "corepack --version"
+  notes: "vem bundlado no Node; a global existe só pra fixar a versão"
+
+# Órfão: quem usa bundla a própria cópia, a global não serve ninguém.
+- name: node-llama-cpp
+  kind: npm-global
+  package: node-llama-cpp
+  status: orphan-candidate
+  verify: "node-llama-cpp --version"
+  notes: "o plugin @openclaw/llama-cpp-provider bundla a própria cópia na árvore dele"
+
+- name: yt-dlp
+  kind: pip
+  package: yt-dlp
+  verify: "yt-dlp --version"
+  notes: "quebra sozinho quando o YouTube muda; atualizar cedo é mais seguro que tarde"
+
+- name: ffmpeg
+  kind: apt
+  package: ffmpeg
+  verify: "ffmpeg -version | head -1"
+
+- name: node
+  kind: binary
+  verify: "node --version"
+  notes: "gerenciado pelo nvm; sem registry para consultar, checar à mão"

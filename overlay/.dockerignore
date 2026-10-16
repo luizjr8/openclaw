@@ -1,0 +1,31 @@
+## Estado de dev montado como volume (não deve ir para o contexto de build)
+app/
+
+## Modelos GGUF: fora da imagem — baixados sob demanda (hf:) ou montados via volume no dev
+assets/
+
+## Fork do OpenClaw (submodule): fora do contexto de build. O estágio openclaw-fork
+## clona o repo direto pelo SHA (OPENCLAW_REF), então mandar ~900 MB de árvore +
+## histórico pro daemon do Docker seria puro desperdício.
+vendor/
+
+## Git e metadados
+.git/
+.gitignore
+.DS_Store
+
+## Segredos e credenciais
+.env
+*.env
+application_default_credentials.json
+.ssh/
+
+## Dependências e caches
+node_modules/
+**/__pycache__/
+*.pyc
+
+## Scripts de dev que não são usados dentro da imagem
+run_dev.sh
+run_local.sh
+docker-compose.yml

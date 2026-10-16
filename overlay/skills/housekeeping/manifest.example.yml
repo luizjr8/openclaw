@@ -1,0 +1,91 @@
+# housekeeping — manifesto de alvos de limpeza da instância.
+#
+# Copie para $LZBOT_WORKSPACE_ROOT/skills/housekeeping/manifest.yml e edite.
+# Allowlist: o que não está declarado aqui NÃO é candidato. A skill nunca varre
+# disco procurando "o que parece lixo".
+#
+# Em cima do manifesto há uma guarda dura no código (PROTECTED em
+# scripts/housekeeping.py): alvo que resolva para dentro — ou para cima — de
+# models GGUF, /app/dev, /app/.ssh, secrets/ ou memory/
+# é bloqueado e reportado, não removido. Declarar não fura a guarda.
+#
+# Campos:
+#   name            (obrigatório) rótulo curto usado na CLI e na saída
+#   kind            (obrigatório) paths | age | retention | command
+#   paths           globs (aceita ~). Semântica depende do kind
+#   exclude         globs que saem do resultado (age e retention)
+#   older_than_days age: idade mínima para virar candidato (default 7)
+#   keep            retention: quantos mais recentes manter POR diretório-pai
+#                   (default 3)
+#   apply           command: comando de limpeza, roda em sh -c
+#   size_path       command: globs medidos antes/depois para calcular o liberado
+#   enabled         false desliga o alvo sem apagar a entrada
+#   notes           o que o número não conta
+#
+# Kinds:
+#   paths        todo match é lixo. Use quando o caminho já é o veredito
+#   age          match mais velho que N dias. A idade é o mtime MAIS RECENTE da
+#                árvore, não o do diretório: dir com data antiga pode ter
+#                arquivo escrito hoje dentro
+#   retention    agrupa por diretório-pai e mantém os `keep` mais recentes
+#   command      o dono da limpeza é um comando externo (npm/pip)
+
+## Browser não usado por skill nenhuma
+- name: playwright-unused-browsers
+  kind: paths
+  paths:
+    - "~/.cache/ms-playwright/webkit-*"
+  notes: "`playwright install chromium` poda revisão VELHA, nunca browser de tipo não usado — este só sai à mão"
+
+## /tmp: scratch de sessões antigas
+- name: tmp-stale
+  kind: age
+  older_than_days: 7
+  paths:
+    - "/tmp/*"
+  exclude:
+    - "/tmp/openclaw"          # logs ativos do gateway
+    - "/tmp/openclaw*"
+    - "/tmp/claude-*"
+    - "/tmp/.X*"
+    - "/tmp/pulse-*"
+    - "/tmp/jiti"
+    - "/tmp/node-compile-cache"
+    - "/tmp/v[0-9]*"           # node extrai binário próprio aqui
+  notes: "sessão em curso escreve em /tmp; o corte por idade é o que separa scratch morto de scratch vivo"
+
+## Backups: retenção por alvo
+- name: backups-retention
+  kind: retention
+  keep: 3
+  paths:
+    - "/app/backups/*"
+    - "/app/workspace/skills/*/backups/*/*"
+  notes: "agrupa por diretório-pai, então cada dependência da deps-update tem os 3 dela"
+
+## Caches de gerenciador de pacote
+- name: npm-cache
+  kind: command
+  apply: "npm cache clean --force"
+  size_path:
+    - "~/.npm/_cacache"
+  notes: "só cache de download; o custo de errar é re-baixar tarball"
+
+- name: pip-http-cache
+  kind: paths
+  paths:
+    - "~/.cache/pip/http-v2"
+    - "~/.cache/pip/http"
+  notes: "não é `pip cache purge`: purge leva ~/.cache/pip/wheels junto, e wheel compilado localmente custa build, não download. pip recria o http-v2 sozinho"
+
+## Docker prune — comentado de propósito.
+## Este container NÃO tem acesso ao daemon: o binário `docker` existe mas
+## /var/run/docker.sock não está montado, e `docker ps` falha com
+## "Cannot connect to the Docker daemon". Fica aqui como referência para bot
+## que rode no host. Em host com Swarm, `system prune` também mexe em imagem de
+## serviço — leia TOOLS.md antes.
+# - name: docker-prune
+#   kind: command
+#   apply: "docker system prune -f --filter until=168h"
+#   size_path: []
+#   notes: "só em host com socket do docker montado"

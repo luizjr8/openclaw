@@ -1,0 +1,719 @@
+{
+  "$schema": "doc/schema.json",
+  "gateway": {
+    "mode": "local",
+    "bind": "loopback",
+    "port": 16888,
+    "auth": {
+      "mode": "token",
+      "token": {
+        "source": "env",
+        "provider": "default",
+        "id": "OPENCLAW_GATEWAY_TOKEN"
+      }
+    },
+    "tailscale": {
+      "mode": "${GATEWAY_TAILSCALE_MODE}"
+    },
+    "controlUi": {
+      "enabled": false
+    },
+    "reload": {
+      "mode": "hybrid"
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "config": true,
+    "plugins": true,
+    "ownerAllowFrom": [
+      "telegram:${TELEGRAM_USER_ID}"
+    ],
+    "allowFrom": {
+      "whatsapp": [
+        "${WHATSAPP_OWNER_NUMBER}"
+      ]
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "${PRIMARY_AGENT_MODEL}",
+        "fallbacks": [
+          "${FALLBACK_AGENT_MODEL}"
+        ]
+      },
+      "workspace": "workspace/",
+      "utilityModel": "${UTILITY_AGENT_MODEL}",
+      "imageModel": "${VISION_AGENT_MODEL}",
+      "contextInjection": "always",
+      "userTimezone": "America/Recife",
+      "imageMaxDimensionPx": 2048,
+      "thinkingDefault": "medium",
+      "verboseDefault": "off",
+      "heartbeat": {
+        "every": "30m",
+        "activeHours": {
+          "start": "07:00",
+          "end": "23:00",
+          "timezone": "America/Recife"
+        },
+        "target": "none"
+      },
+      "subagents": {
+        "allowAgents": [
+          "*"
+        ],
+        "delegationMode": "suggest",
+        "maxConcurrent": 3,
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 10
+      },
+      "compaction": {
+        "mode": "safeguard",
+        "identifierPolicy": "strict",
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 6000
+        }
+      },
+      "mediaModels": {
+        "image": "${IMAGE_GENERATION_AGENT_MODEL}"
+      },
+      "systemAgent": {
+        "agentId": "main"
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      }
+    },
+    "ownership": "explicit",
+    "entries": {
+      "$include": [
+        "./agents.json5"
+      ]
+    }
+  },
+  "plugins": {
+    "load": {
+      "paths": [
+        "extensions/"
+      ]
+    },
+    "entries": {
+      "deepseek": {
+        "enabled": true
+      },
+      "memory-core": {
+        "enabled": true,
+        "config": {
+          "dreaming": {
+            "enabled": true,
+            "frequency": "0 3 * * *"
+          }
+        }
+      },
+      "openai": {
+        "enabled": true
+      },
+      "google": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "model": "gemini-3.5-flash"
+          }
+        }
+      },
+      "anthropic": {
+        "enabled": true
+      },
+      "slack": {
+        "enabled": false
+      },
+      "webhook-inbound": {
+        "enabled": true,
+        "config": {
+          "prefix": "/in",
+          "secret": "${WEBHOOK_SECRET}",
+          "publicUrl": "${WEBHOOK_PUBLIC_URL}"
+        }
+      },
+      "browser": {
+        "enabled": true
+      },
+      "whatsapp": {
+        "enabled": true
+      },
+      "openrouter": {
+        "enabled": true
+      },
+      "llama-cpp": {
+        "enabled": true
+      },
+      "codex": {
+        "enabled": true
+      },
+      "ollama": {
+        "enabled": false
+      },
+      "xai": {
+        "enabled": false
+      },
+      "minimax": {
+        "enabled": false
+      },
+      "perplexity": {
+        "enabled": false
+      },
+      "device-pair": {
+        "enabled": false,
+        "config": {
+          "publicUrl": "${DEVICE_PAIR_PUBLIC_URL}"
+        }
+      },
+      "cua-computer": {
+        "enabled": false
+      },
+      "file-transfer": {
+        "enabled": false
+      },
+      "linux-node": {
+        "enabled": false
+      },
+      "canvas": {
+        "enabled": false
+      },
+      "talk-voice": {
+        "enabled": false
+      },
+      "azure-speech": {
+        "enabled": false
+      }
+    }
+  },
+  "tools": {
+    "codeMode": {
+      "enabled": false
+    },
+    "media": {
+      "audio": {
+        "enabled": true,
+        "maxBytes": 20971520,
+        "timeoutSeconds": 120
+      },
+      "image": {
+        "enabled": true,
+        "maxBytes": 26214400,
+        "timeoutSeconds": 180
+      },
+      "models": [
+        {
+          "type": "provider",
+          "provider": "google-vertex",
+          "model": "gemini-3.5-flash",
+          "capabilities": [
+            "image"
+          ],
+          "maxBytes": 26214400,
+          "timeoutSeconds": 180
+        },
+        {
+          "type": "cli",
+          "command": "faster-whisper",
+          "args": [
+            "--model",
+            "base",
+            "--device",
+            "cpu",
+            "--compute_type",
+            "float32",
+            "{{MediaPath}}"
+          ],
+          "capabilities": [
+            "audio"
+          ]
+        }
+      ]
+    },
+    "message": {
+      "crossContext": {
+        "allowAcrossProviders": true
+      }
+    },
+    "elevated": {
+      "enabled": true,
+      "allowFrom": {
+        "telegram": [
+          "${TELEGRAM_USER_ID}"
+        ]
+      }
+    },
+    "sessions": {
+      "visibility": "all"
+    },
+    "sessions_spawn": {
+      "attachments": {
+        "enabled": true
+      }
+    },
+    "agentToAgent": {
+      "enabled": true
+    },
+    "web": {
+      "search": {
+        "maxResults": 20,
+        "timeoutSeconds": 60
+      }
+    },
+    "byProvider": {
+      "telegram": {
+        "deny": [
+          "secrets",
+          "terminal",
+          "dashboard",
+          "portal",
+          "canvas",
+          "mobile_ui"
+        ]
+      }
+    },
+    "deny": [
+      "secrets"
+    ]
+  },
+  "browser": {
+    "enabled": true,
+    "executablePath": "${BROWSER_EXECUTABLE_PATH}",
+    "headless": false,
+    "noSandbox": true,
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": true
+    },
+    "tabCleanup": {
+      "enabled": true
+    },
+    "snapshotDefaults": {
+      "mode": "efficient"
+    },
+    "extraArgs": [
+      "--timezone=America/Sao_Paulo"
+    ]
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "openrouter": {
+        "models": [
+          {
+            "id": "xiaomi/mimo-v2.5",
+            "name": "xiaomi/mimo-v2.5"
+          }
+        ]
+      },
+      "claude-cli": {
+        "agentRuntime": {
+          "id": "claude-cli"
+        },
+        "models": [
+          {
+            "id": "claude-opus-5-5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextTokens": 1000000,
+            "maxTokens": 128000,
+            "api": "anthropic-messages",
+            "name": "claude-opus-5-5"
+          }
+        ]
+      },
+      "anthropic": {
+        "agentRuntime": {
+          "id": "openclaw"
+        },
+        "models": [
+          {
+            "id": "claude-opus-5-5",
+            "name": "claude-opus-5-5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextTokens": 1000000,
+            "maxTokens": 128000,
+            "api": "anthropic-messages"
+          }
+        ]
+      },
+      "llama-cpp": {
+        "baseUrl": "http://127.0.0.1:19432/v1",
+        "apiKey": "***",
+        "api": "openai-completions",
+        "timeoutSeconds": 600,
+        "localService": {
+          "command": "/app/tools/llama.cpp/b10534/linux-x64/llama-server",
+          "args": [
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "19432",
+            "--models-preset",
+            "/app/tools/llama.cpp/models.ini",
+            "--models-max",
+            "2",
+            "--metrics",
+            "--no-ui"
+          ],
+          "healthUrl": "http://127.0.0.1:19432/health",
+          "readyTimeoutMs": 30000,
+          "idleStopMs": 600000
+        },
+        "models": []
+      }
+    }
+  },
+  "memory": {
+    "search": {
+      "experimental": {
+        "sessionMemory": false
+      },
+      "sources": [
+        "memory"
+      ],
+      "extraPaths": [
+        {
+          "path": "memory",
+          "pattern": "*.md"
+        },
+        {
+          "path": "memory/ref",
+          "pattern": "*.md"
+        },
+        "MEMORY.md"
+      ],
+      "provider": "local",
+      "fallback": "none",
+      "store": {
+        "vector": {
+          "enabled": false
+        }
+      },
+      "rememberAcrossConversations": true
+    }
+  },
+  "messages": {
+    "ackReaction": "👌",
+    "visibleReplies": "automatic",
+    "queue": {
+      "mode": "steer"
+    },
+    "statusReactions": {
+      "enabled": false
+    },
+    "inbound": {
+      "debounceMs": 1888,
+      "byChannel": {
+        "telegram": 4000,
+        "whatsapp": 15000
+      }
+    },
+    "ackReactionScope": "off"
+  },
+  "session": {
+    "scope": "per-sender",
+    "dmScope": "per-peer",
+    "threadBindings": {
+      "enabled": true,
+      "idleHours": 24,
+      "maxAgeHours": 0
+    },
+    "reset": {
+      "mode": "daily",
+      "atHour": 4
+    },
+    "resetByType": {
+      "group": {
+        "mode": "idle",
+        "idleMinutes": 120
+      }
+    },
+    "resetByChannel": {
+      "whatsapp": {
+        "mode": "idle",
+        "idleMinutes": 10080
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "richMessages": true,
+      "reactionLevel": "off",
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "${TELEGRAM_USER_ID}"
+      ],
+      "groupPolicy": "allowlist",
+      "groups": {
+        "*": {
+          "allowFrom": [
+            "${TELEGRAM_USER_ID}"
+          ],
+          "requireMention": false
+        }
+      },
+      "streaming": {
+        "mode": "partial",
+        "progress": {
+          "commentary": true,
+          "labels": [
+            "⏳ Processando...",
+            "🧠 Pensando...",
+            "🔧 Executando...",
+            "🔍 Analisando...",
+            "📡 Consultando...",
+            "✍️ Redigindo..."
+          ],
+          "maxLines": 8,
+          "toolProgress": true,
+          "commandText": "raw"
+        },
+        "preview": {
+          "chunk": {
+            "breakPreference": "sentence",
+            "minChars": 20,
+            "maxChars": 100
+          },
+          "commandText": "raw",
+          "toolProgress": true
+        },
+        "block": {
+          "enabled": false
+        },
+        "chunkMode": "length"
+      },
+      "groupAllowFrom": [
+        "${TELEGRAM_USER_ID}"
+      ]
+    },
+    "whatsapp": {
+      "enabled": true,
+      "mediaMaxMb": 50,
+      "selfChatMode": false,
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist",
+      "replyToMode": "first",
+      "allowFrom": [
+        "${WHATSAPP_OWNER_NUMBER}"
+      ],
+      "accounts": {
+        "default": {
+          "name": "${WHATSAPP_ACCOUNT_NAME}",
+          "enabled": true,
+          "selfChatMode": false,
+          "dmPolicy": "allowlist"
+        }
+      },
+      "groups": {
+        "*": {
+          "requireMention": true
+        }
+      },
+      "groupAllowFrom": [
+        "${WHATSAPP_OWNER_NUMBER}"
+      ],
+      "streaming": {
+        "block": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "mcp": {
+    "servers": {
+      "context7": {
+        "enabled": true,
+        "url": "https://mcp.context7.com/mcp",
+        "transport": "streamable-http",
+        "headers": {
+          "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+        }
+      }
+    }
+  },
+  "skills": {
+    "workshop": {
+      "approvalPolicy": "auto"
+    },
+    "entries": {
+      "1password": {
+        "enabled": false
+      },
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "discord": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gh-issues": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "github": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      },
+      "openai-whisper": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "oracle": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "peekaboo": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "session-logs": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "tmux": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "trello-helper": {
+        "enabled": false
+      },
+      "voice-call": {
+        "enabled": false
+      },
+      "wacli": {
+        "enabled": false
+      },
+      "xurl": {
+        "enabled": false
+      }
+    }
+  },
+  "bindings": [
+    {
+      "type": "route",
+      "agentId": "main",
+      "comment": "Dono: numero pessoal no whatsapp -> agente principal (nunca cai no concierge).",
+      "match": {
+        "channel": "whatsapp",
+        "accountId": "default",
+        "peer": {
+          "kind": "direct",
+          "id": "${WHATSAPP_OWNER_NUMBER}"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "concierge",
+      "comment": "Catch-all whatsapp: qualquer outro numero (fornecedor) -> concierge. Zero config por fornecedor, sem restart.",
+      "match": {
+        "channel": "whatsapp",
+        "accountId": "default"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "main",
+      "comment": "Dono do canal telegram:default. Sem isto o canal nao sobe: com ownership explicit e sem default:true, nenhum agente e dono e o telegram sai com AgentSelectionRequired.",
+      "match": {
+        "channel": "telegram",
+        "accountId": "default"
+      }
+    }
+  ],
+  "env": {
+    "vars": {
+      "GOG_KEYRING_PASSWORD": "${GOG_KEYRING_PASSWORD}",
+      "LZBOT_WORKSPACE_ROOT": "/app/workspace"
+    }
+  },
+  "talk": {
+    "agentId": "main"
+  }
+}
